@@ -8,9 +8,44 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity" >
 
-    <TextView
+    <EditText
+        android:id="@+id/taskText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/submitTaskButton"
+        android:ems="10"
+        android:hint="Add a Task" >
+
+        <requestFocus />
+    </EditText>
+
+    <Button
+        android:id="@+id/submitTaskButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/taskText"
+        android:layout_alignBottom="@+id/taskText"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="18dp"
+        android:text="Submit"
+        android:textSize="12dp" />
+
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/taskText"
+        android:layout_below="@+id/submitTaskButton"
+        android:layout_marginTop="20dp" >
+
+        <TableLayout
+            android:id="@+id/taskTable"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+        </TableLayout>
+
+    </ScrollView>
 
 </RelativeLayout>

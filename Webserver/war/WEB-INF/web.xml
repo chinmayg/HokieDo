@@ -10,11 +10,51 @@ javaee/web-app_3_0.xsd"
 	 <servlet>	
 	 	<servlet-name>First</servlet-name>	
 	 	<servlet-class>org.vt.ece4564.MainServlet</servlet-class>	
+	 </servlet>
+	 	
+	 <servlet>	
+	 	<servlet-name>Login</servlet-name>	
+	 	<servlet-class>org.vt.ece4564.LoginServlet</servlet-class>	
+	 </servlet>
+	 
+	 <servlet>	
+	 	<servlet-name>Update</servlet-name>	
+	 	<servlet-class>org.vt.ece4564.UpdateDataServlet</servlet-class>	
+	 </servlet>
+	 
+	 <servlet>	
+	 	<servlet-name>Get</servlet-name>	
+	 	<servlet-class>org.vt.ece4564.GetDataServlet</servlet-class>	
+	 </servlet>			
+	 
+	 <servlet>	
+	 	<servlet-name>Create</servlet-name>	
+	 	<servlet-class>org.vt.ece4564.CreateUserServlet</servlet-class>	
 	 </servlet>	
-
+	 
 	 <servlet-mapping>	
 	 	<servlet-name>First</servlet-name>	
 	 	<url-pattern>/</url-pattern>	
-	 </servlet-mapping>	
+	 </servlet-mapping>
+	 
+	 <servlet-mapping>	
+	 	<servlet-name>Login</servlet-name>	
+	 	<url-pattern>/login</url-pattern>	
+	 </servlet-mapping>
+	 
+	 <servlet-mapping>	
+	 	<servlet-name>Update</servlet-name>	
+	 	<url-pattern>/updateData</url-pattern>	
+	 </servlet-mapping>
+	 
+	 <servlet-mapping>	
+	 	<servlet-name>Get</servlet-name>	
+	 	<url-pattern>/getData</url-pattern>	
+	 </servlet-mapping>
+	 
+	 <servlet-mapping>	
+	 	<servlet-name>Create</servlet-name>	
+	 	<url-pattern>/create</url-pattern>	
+	 </servlet-mapping>			
 	
 </web-app>

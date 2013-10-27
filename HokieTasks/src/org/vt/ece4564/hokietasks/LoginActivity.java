@@ -1,242 +1,257 @@
 package org.vt.ece4564.hokietasks;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.annotation.TargetApi;
+import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.utils.URLEncodedUtils;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.simple.JSONObject;
+
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.view.KeyEvent;
-import android.view.Menu;
+import android.util.Log;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
-/**
- * Activity which displays a login screen to the user, offering registration as
- * well.
- */
 public class LoginActivity extends Activity {
-	/**
-	 * A dummy authentication store containing known user names and passwords.
-	 * TODO: remove after connecting to a real authentication system.
-	 */
-	private static final String[] DUMMY_CREDENTIALS = new String[] {
-			"foo@example.com:hello", "bar@example.com:world" };
-
-	/**
-	 * The default email to populate the email field with.
-	 */
-	public static final String EXTRA_EMAIL = "com.example.android.authenticatordemo.extra.EMAIL";
-
-	/**
-	 * Keep track of the login task to ensure we can cancel it if requested.
-	 */
-	private UserLoginTask mAuthTask = null;
-
-	// Values for email and password at the time of the login attempt.
-	private String mEmail;
-	private String mPassword;
-
-	// UI references.
-	private EditText mEmailView;
-	private EditText mPasswordView;
-	private View mLoginFormView;
-	private View mLoginStatusView;
-	private TextView mLoginStatusMessageView;
-
+	ProgressDialog m_pd;
+	String m_username = null;
+	String m_password = null;
+	String TAG = "TASKS";
+	String websiteURL_ = null;
+	SharedPreferences myPrefs;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		setContentView(R.layout.activity_login);
+		Button loginBtn = (Button) findViewById(R.id.sign_in_button);
+		
+		loginBtn.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View arg0) {
+				doLogin();
+			}
+		});
+		
+		Button registerBtn = (Button) findViewById(R.id.register);
+		
+		registerBtn.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View arg0) {
+				doCreate();
+			}
+		});
+		
+		Button prefBtn = (Button) findViewById(R.id.prefButton);
+		
+		prefBtn.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View arg0) {
+			     Intent i = new Intent(LoginActivity.this, PrefActivity.class);
+			     startActivity(i);
+			}
+		});
 
-		// Set up the login form.
-		mEmail = getIntent().getStringExtra(EXTRA_EMAIL);
-		mEmailView = (EditText) findViewById(R.id.email);
-		mEmailView.setText(mEmail);
-
-		mPasswordView = (EditText) findViewById(R.id.password);
-		mPasswordView
-				.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-					@Override
-					public boolean onEditorAction(TextView textView, int id,
-							KeyEvent keyEvent) {
-						if (id == R.id.login || id == EditorInfo.IME_NULL) {
-							attemptLogin();
-							return true;
-						}
-						return false;
-					}
-				});
-
-		mLoginFormView = findViewById(R.id.login_form);
-		mLoginStatusView = findViewById(R.id.login_status);
-		mLoginStatusMessageView = (TextView) findViewById(R.id.login_status_message);
-
-		findViewById(R.id.sign_in_button).setOnClickListener(
-				new View.OnClickListener() {
-					@Override
-					public void onClick(View view) {
-						attemptLogin();
-					}
-				});
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		super.onCreateOptionsMenu(menu);
-		getMenuInflater().inflate(R.menu.login, menu);
-		return true;
-	}
+	private class HandleAuth extends AsyncTask<String, Void, Long> {
+		protected Long doInBackground(String... cred) {
+			HttpResponse response = null;
+			long returnStat = -1;
+			String newURL = addLocationToUrl(websiteURL_+cred[2], cred[0], cred[1]);
+			HttpClient httpclient = new DefaultHttpClient();
+			HttpGet httpget = new HttpGet(newURL);
+			Log.i(TAG, newURL);
+			Log.i(TAG, "Before Network Task");
 
-	/**
-	 * Attempts to sign in or register the account specified by the login form.
-	 * If there are form errors (invalid email, missing fields, etc.), the
-	 * errors are presented and no actual login attempt is made.
-	 */
-	public void attemptLogin() {
-		if (mAuthTask != null) {
-			return;
-		}
-
-		// Reset errors.
-		mEmailView.setError(null);
-		mPasswordView.setError(null);
-
-		// Store values at the time of the login attempt.
-		mEmail = mEmailView.getText().toString();
-		mPassword = mPasswordView.getText().toString();
-
-		boolean cancel = false;
-		View focusView = null;
-
-		// Check for a valid password.
-		if (TextUtils.isEmpty(mPassword)) {
-			mPasswordView.setError(getString(R.string.error_field_required));
-			focusView = mPasswordView;
-			cancel = true;
-		} else if (mPassword.length() < 4) {
-			mPasswordView.setError(getString(R.string.error_invalid_password));
-			focusView = mPasswordView;
-			cancel = true;
-		}
-
-		// Check for a valid email address.
-		if (TextUtils.isEmpty(mEmail)) {
-			mEmailView.setError(getString(R.string.error_field_required));
-			focusView = mEmailView;
-			cancel = true;
-		} else if (!mEmail.contains("@")) {
-			mEmailView.setError(getString(R.string.error_invalid_email));
-			focusView = mEmailView;
-			cancel = true;
-		}
-
-		if (cancel) {
-			// There was an error; don't attempt login and focus the first
-			// form field with an error.
-			focusView.requestFocus();
-		} else {
-			// Show a progress spinner, and kick off a background task to
-			// perform the user login attempt.
-			mLoginStatusMessageView.setText(R.string.login_progress_signing_in);
-			showProgress(true);
-			mAuthTask = new UserLoginTask();
-			mAuthTask.execute((Void) null);
-		}
-	}
-
-	/**
-	 * Shows the progress UI and hides the login form.
-	 */
-	@TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-	private void showProgress(final boolean show) {
-		// On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
-		// for very easy animations. If available, use these APIs to fade-in
-		// the progress spinner.
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-			int shortAnimTime = getResources().getInteger(
-					android.R.integer.config_shortAnimTime);
-
-			mLoginStatusView.setVisibility(View.VISIBLE);
-			mLoginStatusView.animate().setDuration(shortAnimTime)
-					.alpha(show ? 1 : 0)
-					.setListener(new AnimatorListenerAdapter() {
-						@Override
-						public void onAnimationEnd(Animator animation) {
-							mLoginStatusView.setVisibility(show ? View.VISIBLE
-									: View.GONE);
-						}
-					});
-
-			mLoginFormView.setVisibility(View.VISIBLE);
-			mLoginFormView.animate().setDuration(shortAnimTime)
-					.alpha(show ? 0 : 1)
-					.setListener(new AnimatorListenerAdapter() {
-						@Override
-						public void onAnimationEnd(Animator animation) {
-							mLoginFormView.setVisibility(show ? View.GONE
-									: View.VISIBLE);
-						}
-					});
-		} else {
-			// The ViewPropertyAnimator APIs are not available, so simply show
-			// and hide the relevant UI components.
-			mLoginStatusView.setVisibility(show ? View.VISIBLE : View.GONE);
-			mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-		}
-	}
-
-	/**
-	 * Represents an asynchronous login/registration task used to authenticate
-	 * the user.
-	 */
-	public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
-		@Override
-		protected Boolean doInBackground(Void... params) {
-			// TODO: attempt authentication against a network service.
-
+			// Execute HTTP Post Request
 			try {
-				// Simulate network access.
-				Thread.sleep(2000);
-			} catch (InterruptedException e) {
-				return false;
+				response = httpclient.execute(httpget);
+				Log.i(TAG, response.getStatusLine().toString());
+			} catch (ClientProtocolException e) {
+				Log.e(TAG, e.getMessage());
+				e.printStackTrace();
+				returnStat=-3;
+			} catch (IOException e) {
+				Log.e(TAG, e.getMessage());
+				e.printStackTrace();
 			}
+			if(response.getStatusLine().getStatusCode() == 200)
+				returnStat = 1;
+			else if(response.getStatusLine().getStatusCode() == 201)
+				returnStat = 2;
+			else if(response.getStatusLine().getStatusCode() == 400)
+				returnStat = -1;
+			else if(response.getStatusLine().getStatusCode() == 401)
+				returnStat = -2;
+			return returnStat;
 
-			for (String credential : DUMMY_CREDENTIALS) {
-				String[] pieces = credential.split(":");
-				if (pieces[0].equals(mEmail)) {
-					// Account exists, return true if the password matches.
-					return pieces[1].equals(mPassword);
-				}
-			}
-
-			// TODO: register the new account here.
-			return true;
 		}
 
-		@Override
-		protected void onPostExecute(final Boolean success) {
-			mAuthTask = null;
-			showProgress(false);
-
-			if (success) {
-				finish();
-			} else {
-				mPasswordView
-						.setError(getString(R.string.error_incorrect_password));
-				mPasswordView.requestFocus();
+		// Run on UI Thread
+		protected void onPostExecute(Long result) {
+			m_pd.dismiss();
+			if (result == 1) {
+				Log.i(TAG, "User Authenticated");
+			    finish();
+			}
+			else if (result == 2) {
+				Log.i(TAG, "User Created");
+			}
+			else if (result == -1){
+				AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+				// Add the buttons
+				builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+				           public void onClick(DialogInterface dialog, int id) {
+				               // User clicked OK button
+				           }
+				       });
+				builder.setMessage("The username or password is not correct! If you are having issues, contact server admin");
+				// Create the AlertDialog
+				AlertDialog dialog = builder.create();
+				dialog.show();
+			}
+			else if (result == -2){
+				AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+				// Add the buttons
+				builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+				           public void onClick(DialogInterface dialog, int id) {
+				               // User clicked OK button
+				           }
+				       });
+				builder.setMessage("This UserName already exists!");
+				// Create the AlertDialog
+				AlertDialog dialog = builder.create();
+				dialog.show();
+			}
+			else if (result == -3){
+				AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+				// Add the buttons
+				builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+				           public void onClick(DialogInterface dialog, int id) {
+				               // User clicked OK button
+				           }
+				       });
+				builder.setMessage("Unable to connect to server.");
+				// Create the AlertDialog
+				AlertDialog dialog = builder.create();
+				dialog.show();
 			}
 		}
+		
+		protected String addLocationToUrl(String url, String user, String pwd){
+		    if(!url.endsWith("?"))
+		        url += "?";
+		    JSONObject obj=new JSONObject();
+		    obj.put("user", user);
+		    obj.put("pwd",pwd);
+		    Log.i(TAG,obj.toString());
+		    List<NameValuePair> params = new LinkedList<NameValuePair>();
+		    params.add(new BasicNameValuePair("info", obj.toString()));
 
-		@Override
-		protected void onCancelled() {
-			mAuthTask = null;
-			showProgress(false);
+		    String paramString = URLEncodedUtils.format(params, "utf-8");
+
+		    url += paramString;
+		    return url;
 		}
+	}
+
+	private void hideSoftKeyboard(Activity activity) {
+		try {
+
+			InputMethodManager inputMethodManager = (InputMethodManager)  activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+			inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
+		} catch (Exception e) {
+
+		}
+	}
+	
+	void requestAuthentication(String username, String password) {
+		m_pd = ProgressDialog.show(LoginActivity.this, null,
+				"Authenticating...");
+		m_pd.setCancelable(true);
+		new HandleAuth().execute(username, password,"login");
+	}
+	
+	void createUser(String username, String password) {
+		m_pd = ProgressDialog.show(LoginActivity.this, null,
+				"Creating User...");
+		m_pd.setCancelable(true);
+		new HandleAuth().execute(username, password,"create");
+	}
+	
+	
+
+	private void doLogin() {
+		EditText uText = (EditText) findViewById(R.id.email);
+		EditText pText = (EditText) findViewById(R.id.password);
+		m_username = uText.getText().toString();
+		m_password = pText.getText().toString();
+		
+		myPrefs = this.getSharedPreferences("myPrefs", MODE_WORLD_READABLE);
+        SharedPreferences.Editor prefsEditor = myPrefs.edit();
+        prefsEditor.putString("USER", m_username.toString());
+        prefsEditor.commit();
+        
+	    myPrefs = this.getSharedPreferences("myPrefs", MODE_WORLD_READABLE);
+	    websiteURL_ = myPrefs.getString("SOCKET", "nothing");
+        
+		if ((m_username.length() == 0) || (m_password.length() == 0)) {
+			AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+			// Add the buttons
+			builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+			           public void onClick(DialogInterface dialog, int id) {
+			               // User clicked OK button
+			           }
+			       });
+			builder.setMessage("Please fill in the username and the password lines!");
+			// Create the AlertDialog
+			AlertDialog dialog = builder.create();
+			dialog.show();
+		} else {
+			hideSoftKeyboard(this);
+			requestAuthentication(m_username, m_password);
+		}
+	}
+	
+	private void doCreate() {
+		EditText uText = (EditText) findViewById(R.id.email);
+		EditText pText = (EditText) findViewById(R.id.password);
+		m_username = uText.getText().toString();
+		m_password = pText.getText().toString();
+		
+	    myPrefs = this.getSharedPreferences("myPrefs", MODE_WORLD_READABLE);
+	    websiteURL_ = myPrefs.getString("SOCKET", "nothing");
+		
+		if ((m_username.length() == 0) || (m_password.length() == 0)) {
+			AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+			// Add the buttons
+			builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+			           public void onClick(DialogInterface dialog, int id) {
+			               // User clicked OK button
+			           }
+			       });
+			builder.setMessage("Please fill in the username and the password lines!");
+			// Create the AlertDialog
+			AlertDialog dialog = builder.create();
+			dialog.show();
+		} else {
+			hideSoftKeyboard(this);
+			createUser(m_username,m_password);
+		}
+
 	}
 }
