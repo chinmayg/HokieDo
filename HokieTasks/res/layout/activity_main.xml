@@ -18,9 +18,12 @@
         android:ems="10"
         android:hint="Add a Task" >
 
-        <requestFocus />
-    </EditText>
+        <requestFocus
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
 
+    </EditText>
+	
     <Button
         android:id="@+id/submitTaskButton"
         android:layout_width="wrap_content"
@@ -47,5 +50,31 @@
         </TableLayout>
 
     </ScrollView>
+
+	<LinearLayout
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_alignBottom="@id/scrollView1"
+	    android:layout_alignParentBottom="true"
+	    android:layout_alignParentLeft="true"
+	    android:layout_marginBottom="10dp" >
+
+	    <Button
+	        android:id="@+id/saveToServerButton"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginRight="45dp"
+	        android:text="Save Data"
+	        android:textSize="12dp" />
+
+	    <Button
+	        android:id="@+id/downloadButton"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginBottom="45dp"
+	        android:layout_marginLeft="16dp"
+	        android:text="Download Data"
+	        android:textSize="12dp" />
+	</LinearLayout>
 
 </RelativeLayout>

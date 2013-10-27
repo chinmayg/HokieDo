@@ -29,9 +29,9 @@ import android.widget.Button;
 import android.widget.EditText;
 
 public class LoginActivity extends Activity {
-	ProgressDialog m_pd;
-	String m_username = null;
-	String m_password = null;
+	ProgressDialog pd_;
+	String username_ = null;
+	String password_ = null;
 	String TAG = "TASKS";
 	String websiteURL_ = null;
 	SharedPreferences myPrefs;
@@ -103,7 +103,7 @@ public class LoginActivity extends Activity {
 
 		// Run on UI Thread
 		protected void onPostExecute(Long result) {
-			m_pd.dismiss();
+			pd_.dismiss();
 			if (result == 1) {
 				Log.i(TAG, "User Authenticated");
 			    finish();
@@ -180,16 +180,16 @@ public class LoginActivity extends Activity {
 	}
 	
 	void requestAuthentication(String username, String password) {
-		m_pd = ProgressDialog.show(LoginActivity.this, null,
+		pd_ = ProgressDialog.show(LoginActivity.this, null,
 				"Authenticating...");
-		m_pd.setCancelable(true);
+		pd_.setCancelable(true);
 		new HandleAuth().execute(username, password,"login");
 	}
 	
 	void createUser(String username, String password) {
-		m_pd = ProgressDialog.show(LoginActivity.this, null,
+		pd_ = ProgressDialog.show(LoginActivity.this, null,
 				"Creating User...");
-		m_pd.setCancelable(true);
+		pd_.setCancelable(true);
 		new HandleAuth().execute(username, password,"create");
 	}
 	
@@ -198,18 +198,18 @@ public class LoginActivity extends Activity {
 	private void doLogin() {
 		EditText uText = (EditText) findViewById(R.id.email);
 		EditText pText = (EditText) findViewById(R.id.password);
-		m_username = uText.getText().toString();
-		m_password = pText.getText().toString();
+		username_ = uText.getText().toString();
+		password_ = pText.getText().toString();
 		
 		myPrefs = this.getSharedPreferences("myPrefs", MODE_WORLD_READABLE);
         SharedPreferences.Editor prefsEditor = myPrefs.edit();
-        prefsEditor.putString("USER", m_username.toString());
+        prefsEditor.putString("USER", username_.toString());
         prefsEditor.commit();
         
 	    myPrefs = this.getSharedPreferences("myPrefs", MODE_WORLD_READABLE);
 	    websiteURL_ = myPrefs.getString("SOCKET", "nothing");
         
-		if ((m_username.length() == 0) || (m_password.length() == 0)) {
+		if ((username_.length() == 0) || (password_.length() == 0)) {
 			AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
 			// Add the buttons
 			builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -223,20 +223,20 @@ public class LoginActivity extends Activity {
 			dialog.show();
 		} else {
 			hideSoftKeyboard(this);
-			requestAuthentication(m_username, m_password);
+			requestAuthentication(username_, password_);
 		}
 	}
 	
 	private void doCreate() {
 		EditText uText = (EditText) findViewById(R.id.email);
 		EditText pText = (EditText) findViewById(R.id.password);
-		m_username = uText.getText().toString();
-		m_password = pText.getText().toString();
+		username_ = uText.getText().toString();
+		password_ = pText.getText().toString();
 		
 	    myPrefs = this.getSharedPreferences("myPrefs", MODE_WORLD_READABLE);
 	    websiteURL_ = myPrefs.getString("SOCKET", "nothing");
 		
-		if ((m_username.length() == 0) || (m_password.length() == 0)) {
+		if ((username_.length() == 0) || (password_.length() == 0)) {
 			AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
 			// Add the buttons
 			builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -250,7 +250,7 @@ public class LoginActivity extends Activity {
 			dialog.show();
 		} else {
 			hideSoftKeyboard(this);
-			createUser(m_username,m_password);
+			createUser(username_,password_);
 		}
 
 	}

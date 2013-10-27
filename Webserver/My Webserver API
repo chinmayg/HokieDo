@@ -1,8 +1,11 @@
 My Webserver API:
+If an extension of the server i.e /create or /updateData requires a parameter, you must send a information formated as a JSON,
+and converted to  a string before you send it through the HTTP Get Request
+
 
 /create
 /login
-/postTask
+/updateDate
 /getData
 /change
 
@@ -66,14 +69,14 @@ parameter:
 
 reponse:
 	Returns an JSON of the tasks or Status if there was no data was found for the user or an error
-	If there is any error, issues with the formating of the JSON
+	If there is any error, issues with the formating of the JSON or if data does not exist
 
 	Sample JSON:
-	{"user":username,"tasks":[tasklist]}
+	{"tasks":[tasklist]}
 
 		OR
 
-	{"status":OK|ERROR}
+	{"status":IF FILE DOESNT EXIST|ERROR}
 
 
 

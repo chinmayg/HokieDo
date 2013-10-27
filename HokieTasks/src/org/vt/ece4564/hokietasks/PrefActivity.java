@@ -14,7 +14,7 @@ public class PrefActivity extends Activity {
     String ip_,port_,websiteURL_;
 	String TAG = "TASKS";
 	SharedPreferences myPrefs;
-	ProgressDialog m_pd;
+	ProgressDialog pd_;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
