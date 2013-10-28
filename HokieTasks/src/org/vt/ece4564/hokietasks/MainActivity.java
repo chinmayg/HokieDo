@@ -113,7 +113,6 @@ public class MainActivity extends Activity implements SensorEventListener {
 				// Add task to ui
 				TableRow row = new TableRow(MainActivity.this);
 				CheckBox box = new CheckBox(MainActivity.this);
-				
 				EditText rowText = new EditText(MainActivity.this);
 				rowText.setText(taskText.getText().toString());
 				rows.add(taskText.getText().toString());
