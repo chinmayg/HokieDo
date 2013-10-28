@@ -8,14 +8,18 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 public class GetDataServlet extends HttpServlet {
-	
+
 	private static final long serialVersionUID = -2970081912950893898L;
 
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+			throws IOException {
 		req.getParameter("info");
 		boolean isOk = true;
 		String json = req.getParameterValues("info")[0];
@@ -25,21 +29,24 @@ public class GetDataServlet extends HttpServlet {
 		String usr = (String) jsObj.get("user");
 		String sCurrentLine = "";
 		BufferedReader br = null;
-		 
+		JSONParser parser = new JSONParser();
 		try {
- 
- 
-			br = new BufferedReader(new FileReader(usr+"tasks.json"));
- 
-			while ((sCurrentLine = br.readLine()) != null) {
-				System.out.println(sCurrentLine);
-			}
- 
+
+			obj = parser.parse(new FileReader(usr + "tasks.json"));
+			JSONArray jsonObject = (JSONArray) obj;
+			respObj.put("tasks", jsonObject);
 		} catch (IOException e) {
+			isOk = false;
 			e.printStackTrace();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			resp.setStatus(401);
+
 		} finally {
 			try {
-				if (br != null)br.close();
+				if (br != null)
+					br.close();
 			} catch (IOException ex) {
 				isOk = false;
 			}
@@ -48,11 +55,12 @@ public class GetDataServlet extends HttpServlet {
 		resp.setContentType("application/json");
 		if (isOk) {
 			resp.setStatus(201);
-			respObj.put("tasks",sCurrentLine);
+			
 		} else {
 			resp.setStatus(401);
 			respObj.put("Status", 401);
 		}
+		System.out.println(respObj.toString());
 		resp.getWriter().write(respObj.toString());
 
 	}

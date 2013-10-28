@@ -51,30 +51,23 @@
 
     </ScrollView>
 
-	<LinearLayout
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-	    android:layout_alignBottom="@id/scrollView1"
-	    android:layout_alignParentBottom="true"
-	    android:layout_alignParentLeft="true"
-	    android:layout_marginBottom="10dp" >
-
 	    <Button
 	        android:id="@+id/saveToServerButton"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:layout_marginRight="45dp"
+	        android:layout_alignParentBottom="true"
+	        android:layout_centerHorizontal="true"
 	        android:text="Save Data"
 	        android:textSize="12dp" />
 
 	    <Button
-	        android:id="@+id/downloadButton"
+	        android:id="@+id/Button02"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:layout_marginBottom="45dp"
-	        android:layout_marginLeft="16dp"
+	        android:layout_alignBaseline="@+id/saveToServerButton"
+	        android:layout_alignBottom="@+id/saveToServerButton"
+	        android:layout_toRightOf="@+id/scrollView1"
 	        android:text="Download Data"
 	        android:textSize="12dp" />
-	</LinearLayout>
 
 </RelativeLayout>

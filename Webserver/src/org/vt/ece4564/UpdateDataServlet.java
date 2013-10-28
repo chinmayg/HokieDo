@@ -62,7 +62,8 @@ public class UpdateDataServlet extends HttpServlet {
 
 			FileWriter fw = new FileWriter(file.getAbsoluteFile());
 			BufferedWriter bw = new BufferedWriter(fw);
-			bw.append(msg.toJSONString());
+			System.out.println(msg.toString());
+			bw.append(msg.toString());
 			bw.close();
 
 			System.out.println("Done");

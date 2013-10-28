@@ -80,6 +80,9 @@ public class LoginActivity extends Activity {
 			// Execute HTTP Post Request
 			try {
 				response = httpclient.execute(httpget);
+				if(response == null){
+					return (returnStat=-3);
+				}
 				Log.i(TAG, response.getStatusLine().toString());
 			} catch (ClientProtocolException e) {
 				Log.e(TAG, e.getMessage());
@@ -89,7 +92,10 @@ public class LoginActivity extends Activity {
 				Log.e(TAG, e.getMessage());
 				e.printStackTrace();
 			}
-			if(response.getStatusLine().getStatusCode() == 200)
+			if(response == null){
+				returnStat=-3;
+			}
+			else if(response.getStatusLine().getStatusCode() == 200)
 				returnStat = 1;
 			else if(response.getStatusLine().getStatusCode() == 201)
 				returnStat = 2;
@@ -97,6 +103,8 @@ public class LoginActivity extends Activity {
 				returnStat = -1;
 			else if(response.getStatusLine().getStatusCode() == 401)
 				returnStat = -2;
+			else if(response.getStatusLine() == null)
+				returnStat = -3;
 			return returnStat;
 
 		}
@@ -203,6 +211,7 @@ public class LoginActivity extends Activity {
 		
 		myPrefs = this.getSharedPreferences("myPrefs", MODE_WORLD_READABLE);
         SharedPreferences.Editor prefsEditor = myPrefs.edit();
+        prefsEditor.remove("USER");
         prefsEditor.putString("USER", username_.toString());
         prefsEditor.commit();
         
