@@ -43,7 +43,7 @@ response:
 	Sample JSON:
 	{"status":OK|ERROR Code}
 	200 - OK Login
-	400- Failed Auth. of User
+	400 - Failed Auth. of User
 
 
 /updateData
@@ -60,6 +60,8 @@ reponse:
 	Sample JSON:
 	{"status":OK|ERROR}
 
+	200 - OK Login
+	400 - Unable to find user data to update, the server will create a new file if it doesnt exist
 
 /getData
 
@@ -79,6 +81,9 @@ reponse:
 		OR
 
 	{"status":IF FILE DOESNT EXIST|ERROR}
+
+	201 - OK Login
+	401 - No Previous Data
 
 
 
