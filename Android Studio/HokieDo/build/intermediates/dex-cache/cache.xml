@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/Users/cghotkar/Documents/Development/HokieDo/app/libs/json-simple-1.1.1.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="5d6f9b6a9ddca2a28c0216cc44efb2e20d9c23b5">
+        <dex dex="/Users/cghotkar/Documents/Development/HokieDo/app/build/intermediates/pre-dexed/debug/json-simple-1.1.1-ca0db27a7065987c01148058e4e1dc9aff8ce05e.jar" />
+    </item>
+    <item
+        jar="/Users/cghotkar/Library/Android/sdk/extras/android/m2repository/com/android/support/support-v4/18.0.0/support-v4-18.0.0.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="44ec51e9d395a47aab135e5e1b556c0007442156">
+        <dex dex="/Users/cghotkar/Documents/Development/HokieDo/app/build/intermediates/pre-dexed/debug/support-v4-18.0.0-c1a46a0b81ee87ade462dec5be48b845bb79aa68.jar" />
+    </item>
+
+</items>
