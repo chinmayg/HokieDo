@@ -1,6 +1,6 @@
 package org.vt.ece4564.hokietasks;
 
-import java.io.IOException;
+	import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -33,7 +33,7 @@ public class LoginActivity extends Activity {
 	String username_ = null;
 	String password_ = null;
 	String TAG = "TASKS";
-	String websiteURL_ = null;
+	String websiteURL_ = "Not Set";
 	SharedPreferences myPrefs;
 	
 	@Override
@@ -71,6 +71,9 @@ public class LoginActivity extends Activity {
 		protected Long doInBackground(String... cred) {
 			HttpResponse response = null;
 			long returnStat = -1;
+			if(websiteURL_ == null) {
+				return returnStat;
+			}
 			String newURL = addLocationToUrl(websiteURL_+cred[2], cred[0], cred[1]);
 			HttpClient httpclient = new DefaultHttpClient();
 			HttpGet httpget = new HttpGet(newURL);
@@ -200,8 +203,6 @@ public class LoginActivity extends Activity {
 		pd_.setCancelable(true);
 		new HandleAuth().execute(username, password,"create");
 	}
-	
-	
 
 	private void doLogin() {
 		EditText uText = (EditText) findViewById(R.id.email);
@@ -217,7 +218,7 @@ public class LoginActivity extends Activity {
         
 	    myPrefs = this.getSharedPreferences("myPrefs", MODE_WORLD_READABLE);
 	    websiteURL_ = myPrefs.getString("SOCKET", "nothing");
-        
+        Log.i(TAG, websiteURL_);
 		if ((username_.length() == 0) || (password_.length() == 0)) {
 			AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
 			// Add the buttons
@@ -230,9 +231,21 @@ public class LoginActivity extends Activity {
 			// Create the AlertDialog
 			AlertDialog dialog = builder.create();
 			dialog.show();
-		} else {
+		} else if (websiteURL_.contains("NULL") || !websiteURL_.matches(".*\\d+.*")) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+            // Add the buttons
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    // User clicked OK button
+                }
+            });
+            builder.setMessage("Server and Port for webserver is not set!");
+            // Create the AlertDialog
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        } else {
 			hideSoftKeyboard(this);
-			requestAuthentication(username_, password_);
+            requestAuthentication(username_, password_);
 		}
 	}
 	

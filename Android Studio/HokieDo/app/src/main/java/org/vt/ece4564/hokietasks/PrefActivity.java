@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TableLayout;
 
 public class PrefActivity extends Activity {
 
@@ -36,8 +35,6 @@ public class PrefActivity extends Activity {
 				finish();
 			}
 		});
-	
-
 		
     }
     
@@ -50,6 +47,10 @@ public class PrefActivity extends Activity {
 		myPrefs = this.getSharedPreferences("myPrefs", MODE_WORLD_READABLE);
         SharedPreferences.Editor prefsEditor = myPrefs.edit();
         prefsEditor.clear();
+		if(ip_.length() == 0 || port_.length() == 0){
+            ip_ = "NULL";
+            port_ = "NULL";
+        }
         prefsEditor.putString("SOCKET", "http://"+ip_+":"+port_+"/");
         prefsEditor.commit();
         

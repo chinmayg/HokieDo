@@ -28,10 +28,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -50,20 +46,14 @@ import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 
-public class MainActivity extends Activity implements SensorEventListener {
+public class MainActivity extends Activity {
 
 	ArrayList<OnClickListener> listOfListeners = new ArrayList<OnClickListener>();
 	ArrayList<String> rows = new ArrayList<String>();
 	TableLayout taskTable;
 	EditText taskText;
 	SharedPreferences myPrefs;
-	private SensorManager sensorMan;
-	private Sensor accelerometer;
 	String TAG = "TASKS";
-	private float[] Gravity_;
-	private float Accel_;
-	private float Accel_Current_;
-	private float Accel_Last_;
 	ArrayBlockingQueue<String> q;
 	static final int MAX_QUEUE_SIZE = 10;
 	ProgressDialog pd_;
@@ -79,15 +69,9 @@ public class MainActivity extends Activity implements SensorEventListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		q = new ArrayBlockingQueue<String>(MAX_QUEUE_SIZE);
-		Intent i = new Intent(MainActivity.this, PrefActivity.class);
-		// Intent i = new Intent(MainActivity.this, LoginActivity.class);
+		//Intent i = new Intent(MainActivity.this, PrefActivity.class);
+		Intent i = new Intent(MainActivity.this, LoginActivity.class);
 		startActivity(i);
-
-		sensorMan = (SensorManager) getSystemService(SENSOR_SERVICE);
-		accelerometer = sensorMan.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-		Accel_ = 0.00f;
-		Accel_Current_ = SensorManager.GRAVITY_EARTH;
-		Accel_Last_ = SensorManager.GRAVITY_EARTH;
 
 		taskText = (EditText) findViewById(R.id.taskText);
 		Button submitButton = (Button) findViewById(R.id.submitTaskButton);
@@ -123,26 +107,49 @@ public class MainActivity extends Activity implements SensorEventListener {
 		});
 		saveButton.setOnClickListener(new View.OnClickListener() {
 
-			@Override
-			public void onClick(View v) {
-				myPrefs = MainActivity.this.getSharedPreferences("myPrefs", MODE_WORLD_READABLE);
-				username_ = myPrefs.getString("USER", "nothing");
-				saveData();
-			}
+            @Override
+            public void onClick(View v) {
+                myPrefs = MainActivity.this.getSharedPreferences("myPrefs", MODE_WORLD_READABLE);
+                username_ = myPrefs.getString("USER", "nothing");
+                if(isWebserverSet()) {
+                    saveData();
+                }
+            }
 
-		});
+        });
 		downloadButton.setOnClickListener(new View.OnClickListener() {
 
-			@Override
-			public void onClick(View v) {
-				myPrefs = MainActivity.this.getSharedPreferences("myPrefs", MODE_WORLD_READABLE);
-				username_ = myPrefs.getString("USER", "nothing");
-				updateUI();
-			}
+            @Override
+            public void onClick(View v) {
+                myPrefs = MainActivity.this.getSharedPreferences("myPrefs", MODE_WORLD_READABLE);
+                username_ = myPrefs.getString("USER", "nothing");
+                if(isWebserverSet()) {
+                    updateUI();
+                }
+            }
 
-		});
+        });
 	}
 
+    private boolean isWebserverSet(){
+        boolean ret = true;
+        if (websiteURL_.contains("NULL") || !websiteURL_.matches(".*\\d+.*")) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+            // Add the buttons
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    // User clicked OK button
+                }
+            });
+            builder.setMessage("Server and Port for webserver is not set!");
+            // Create the AlertDialog
+            AlertDialog dialog = builder.create();
+            dialog.show();
+            ret = false;
+        }
+
+        return ret;
+    }
 	private class HandleAuth extends AsyncTask<String, Void, Long> {
 		protected Long doInBackground(String... cred) {
 			HttpResponse response = null;
@@ -292,53 +299,11 @@ public class MainActivity extends Activity implements SensorEventListener {
 	@Override
 	public void onResume() {
 		super.onResume();
-		sensorMan.registerListener(this, accelerometer,
-				SensorManager.SENSOR_DELAY_UI);
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
-		sensorMan.unregisterListener(this);
-	}
-
-	@Override
-	public void onSensorChanged(SensorEvent event) {
-		if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-			Gravity_ = event.values.clone();
-			// Shake detection
-			float x = Gravity_[0];
-			float y = Gravity_[1];
-			float z = Gravity_[2];
-			Accel_Last_ = Accel_Current_;
-			Accel_Current_ = FloatMath.sqrt(x * x + y * y + z * z);
-			float delta = Accel_Current_ - Accel_Last_;
-			Accel_ = Accel_ * 0.9f + delta;
-			// Make this higher or lower according to how much
-			// motion you want to detect
-			if (Accel_ > 3 && rows.size() != 0 && (randomTask == null || !randomTask.isShowing())) {
-				Log.i(MainActivity.this.TAG, "It worked!");
-				AlertDialog.Builder builder = new AlertDialog.Builder(
-						MainActivity.this);
-				// Add the buttons
-				builder.setPositiveButton("OK",
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int id) {
-								// User clicked OK button
-							}
-						});
-				builder.setMessage("Start with " + rows.get(0));
-				// Create the AlertDialog
-				randomTask = builder.create();
-				randomTask.show();
-			}
-		}
-
-	}
-
-	@Override
-	public void onAccuracyChanged(Sensor sensor, int accuracy) {
-		// required method
 	}
 
 	@Override

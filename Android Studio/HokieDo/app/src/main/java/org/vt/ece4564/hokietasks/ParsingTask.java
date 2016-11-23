@@ -10,7 +10,7 @@ public class ParsingTask extends AsyncTask<Void, Void, Void> {
 
 	ArrayBlockingQueue<String> q_;
 	Activity activity_;
-	private static final String TAG = "XBOX";
+	private static final String TAG = "TASKS";
 	String HTMLcode_ = "";
 	String profileString = "";
 	boolean doesExist = true;
