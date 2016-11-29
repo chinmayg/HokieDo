@@ -3,9 +3,9 @@ var http = require('http');
 var HttpDispatcher = require('httpdispatcher');
 var dispatcher = new HttpDispatcher();
 var url = require('url');
-
-
-const createUser = require('./createUser');
+var mongodb = require('mongodb');
+var MongoClient = mongodb.MongoClient;
+var db_url = 'mongodb://localhost:27017/todo';
 
 dispatcher.setStatic('/resources');
 dispatcher.setStaticDirname('static');
@@ -17,6 +17,33 @@ function getUserAndPass(request) {
     var parsedUrl = url.parse(request.url, true); // true to get query as object
     var queryAsObject = parsedUrl.query;
     return queryAsObject;
+}
+
+function createUser(id, callback) {
+    console.log(id);
+    // Use connect method to connect to the Server
+    MongoClient.connect(db_url, function (err, db) {
+        if (err) {
+            console.log('Unable to connect to the mongoDB server. Error:', err);
+        } else {
+            console.log('Connection established to', db_url);
+            // Get the documents collection
+            var collection = db.collection('users');
+
+            // Create user
+            var user = {_id:id.user, name:id.user , pass:id.pass, list:[]};
+        
+            // Insert user
+            collection.insert(user, {w:1}, function (err, result) {
+                if(err)
+                    return callback(false);
+                else
+                    return callback(true);
+            });
+            //Close connection
+            db.close()
+        }
+    });
 }
 
 //Function for handling requests and send respose
@@ -33,11 +60,14 @@ function handleRequest(request, response) {
 //Descriptions are in my_webserver_api.txt
 dispatcher.onGet("/create", function(req, res) {
     var id = getUserAndPass(req);
-    if(createUser.checkCred(id)){
-
-    }
     res.writeHead(200, {'Content-Type':'text/plain'});
-    res.end('Page for Create');
+    if(createUser(id, function(response){
+        if(response) {
+            res.end('Success Create');
+        } else {
+            res.end('Error Create');
+        }
+    }));
 });
 
 dispatcher.onGet("/login", function(req, res) {
