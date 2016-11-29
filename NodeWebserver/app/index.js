@@ -60,12 +60,15 @@ function handleRequest(request, response) {
 //Descriptions are in my_webserver_api.txt
 dispatcher.onGet("/create", function(req, res) {
     var id = getUserAndPass(req);
-    res.writeHead(200, {'Content-Type':'text/plain'});
     if(createUser(id, function(response){
         if(response) {
-            res.end('Success Create');
+            res.writeHead(200, {'Content-Type':'application/json'});
+            var json = JSON.stringify({'status':200})
+            res.end(json);
         } else {
-            res.end('Error Create');
+            res.writeHead(401, {'Content-Type':'application/json'});
+            var json = JSON.stringify({'status':401});
+            res.end(json);
         }
     }));
 });

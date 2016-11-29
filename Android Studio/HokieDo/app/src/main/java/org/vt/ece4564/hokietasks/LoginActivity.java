@@ -1,6 +1,6 @@
 package org.vt.ece4564.hokietasks;
 
-	import java.io.IOException;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -71,10 +71,11 @@ public class LoginActivity extends Activity {
 		protected Long doInBackground(String... cred) {
 			HttpResponse response = null;
 			long returnStat = -1;
-			if(websiteURL_ == null) {
+			String newURL = addLocationToUrl(websiteURL_+cred[2], cred[0], cred[1]);
+			if(newURL.contains("NULL")) {
+				returnStat = -4;
 				return returnStat;
 			}
-			String newURL = addLocationToUrl(websiteURL_+cred[2], cred[0], cred[1]);
 			HttpClient httpclient = new DefaultHttpClient();
 			HttpGet httpget = new HttpGet(newURL);
 			Log.i(TAG, newURL);
@@ -161,21 +162,25 @@ public class LoginActivity extends Activity {
 				AlertDialog dialog = builder.create();
 				dialog.show();
 			}
+			else if (result == -4) {
+				AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+				// Add the buttons
+				builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						// User clicked OK button
+					}
+				});
+				builder.setMessage("Server and Port not set");
+				// Create the AlertDialog
+				AlertDialog dialog = builder.create();
+				dialog.show();
+			}
 		}
 		
 		protected String addLocationToUrl(String url, String user, String pwd){
 		    if(!url.endsWith("?"))
 		        url += "?";
-		    JSONObject obj=new JSONObject();
-		    obj.put("user", user);
-		    obj.put("pwd",pwd);
-		    Log.i(TAG,obj.toString());
-		    List<NameValuePair> params = new LinkedList<NameValuePair>();
-		    params.add(new BasicNameValuePair("info", obj.toString()));
-
-		    String paramString = URLEncodedUtils.format(params, "utf-8");
-
-		    url += paramString;
+		    url += "user="+user+"&pass="+pwd+"";
 		    return url;
 		}
 	}

@@ -27,4 +27,3 @@
         android:title="@string/pref_title_vibrate" />
 
 </PreferenceScreen>
-<!-- From: file:/Users/cghotkar/Documents/Development/Git%20Repos/HokieDo/Android%20Studio/HokieDo/app/src/main/res/xml/pref_notification.xml -->

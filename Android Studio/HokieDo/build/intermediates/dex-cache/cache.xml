@@ -2,18 +2,40 @@
 <items version="2" >
 
     <item
-        jar="/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/libs/json-simple-1.1.1.jar"
-        jumboMode="false"
+        is-multidex="true"
+        jar="/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        optimize="true"
         revision="22.0.1"
-        sha1="5d6f9b6a9ddca2a28c0216cc44efb2e20d9c23b5">
-        <dex dex="/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/build/intermediates/pre-dexed/debug/json-simple-1.1.1-f3d1c529087d19b79e95a32f8dfbccc7a97fbefd.jar" />
+        sha1="8aa5ed88158655301e589893f5d4dd939de9ff26">
+        <dex dex="/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_079dedefea650fb364b5a993cb571a22a2005ca0/classes.dex" />
     </item>
     <item
+        is-multidex="true"
         jar="/Users/cghotkar/Library/Android/sdk/extras/android/m2repository/com/android/support/support-v4/18.0.0/support-v4-18.0.0.jar"
-        jumboMode="false"
+        jumboMode="true"
+        optimize="true"
         revision="22.0.1"
         sha1="44ec51e9d395a47aab135e5e1b556c0007442156">
-        <dex dex="/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/build/intermediates/pre-dexed/debug/support-v4-18.0.0-c1a46a0b81ee87ade462dec5be48b845bb79aa68.jar" />
+        <dex dex="/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/build/intermediates/transforms/dex/debug/folders/1000/10/support-v4-18.0.0_c1a46a0b81ee87ade462dec5be48b845bb79aa68/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/libs/json-simple-1.1.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="22.0.1"
+        sha1="5d6f9b6a9ddca2a28c0216cc44efb2e20d9c23b5">
+        <dex dex="/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/build/intermediates/transforms/dex/debug/folders/1000/2/json-simple-1.1.1_f3d1c529087d19b79e95a32f8dfbccc7a97fbefd/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="22.0.1"
+        sha1="780705145f5978f9ced0dbb5c20165af79f9620d">
+        <dex dex="/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_197a8628c5068d5ca3599a92ccbef7ed074b4eaa/classes.dex" />
     </item>
 
 </items>

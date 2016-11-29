@@ -70,4 +70,4 @@
 	        android:text="Download Data"
 	        android:textSize="12dp" />
 
-</RelativeLayout><!-- From: file:/Users/cghotkar/Documents/Development/Git%20Repos/HokieDo/Android%20Studio/HokieDo/app/src/main/res/layout/activity_main.xml -->
+</RelativeLayout>

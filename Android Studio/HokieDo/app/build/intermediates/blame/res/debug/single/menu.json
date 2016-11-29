@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/build/intermediates/res/merged/debug/menu/settings.xml",
+        "source": "/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/src/main/res/menu/settings.xml"
+    },
+    {
+        "merged": "/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/build/intermediates/res/merged/debug/menu/pref.xml",
+        "source": "/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/src/main/res/menu/pref.xml"
+    },
+    {
+        "merged": "/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/build/intermediates/res/merged/debug/menu/login.xml",
+        "source": "/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/src/main/res/menu/login.xml"
+    },
+    {
+        "merged": "/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/build/intermediates/res/merged/debug/menu/main.xml",
+        "source": "/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/src/main/res/menu/main.xml"
+    }
+]

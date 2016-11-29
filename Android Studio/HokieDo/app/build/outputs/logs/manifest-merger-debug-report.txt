@@ -1,18 +1,20 @@
 -- Merging decision tree log ---
 manifest
 ADDED from /Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/src/main/AndroidManifest.xml:2:1-41:12
-	xmlns:android
-		ADDED from /Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/src/main/AndroidManifest.xml:2:11-69
 	package
 		ADDED from /Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/src/main/AndroidManifest.xml:3:5-40
 		INJECTED from /Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/src/main/AndroidManifest.xml
 		INJECTED from /Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/src/main/AndroidManifest.xml
 	android:versionName
 		ADDED from /Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/src/main/AndroidManifest.xml:5:5-30
+		INJECTED from /Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/src/main/AndroidManifest.xml
 	android:versionCode
 		ADDED from /Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/src/main/AndroidManifest.xml:4:5-28
 		INJECTED from /Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/src/main/AndroidManifest.xml
 		INJECTED from /Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/src/main/AndroidManifest.xml
+	xmlns:android
+		ADDED from /Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/src/main/AndroidManifest.xml:2:11-69
 uses-sdk
 ADDED from /Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/src/main/AndroidManifest.xml:7:5-9:41
 	android:targetSdkVersion
@@ -59,10 +61,10 @@ ADDED from /Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studi
 		ADDED from /Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/src/main/AndroidManifest.xml:24:27-74
 activity#org.vt.ece4564.hokietasks.LoginActivity
 ADDED from /Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/src/main/AndroidManifest.xml:27:9-31:20
-	android:windowSoftInputMode
-		ADDED from /Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/src/main/AndroidManifest.xml:30:13-68
 	android:label
 		ADDED from /Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/src/main/AndroidManifest.xml:29:13-57
+	android:windowSoftInputMode
+		ADDED from /Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/src/main/AndroidManifest.xml:30:13-68
 	android:name
 		ADDED from /Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/src/main/AndroidManifest.xml:28:13-67
 activity#org.vt.ece4564.hokietasks.SettingsActivity

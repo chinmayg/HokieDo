@@ -33,4 +33,3 @@
         android:title="@string/pref_title_add_friends_to_messages" />
 
 </PreferenceScreen>
-<!-- From: file:/Users/cghotkar/Documents/Development/Git%20Repos/HokieDo/Android%20Studio/HokieDo/app/src/main/res/xml/pref_general.xml -->
