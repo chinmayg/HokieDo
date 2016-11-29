@@ -28,7 +28,6 @@ In order to run the webserver, import the webserver project into eclipse and pre
 /create -
 parameter: 
 	String with JSON data that holds the username and the password
-	key for parameter: "info"
 	{"user":username, "pwd":pwd}
 
 response:
@@ -46,7 +45,6 @@ response:
 /login -
 parameter:
 	String with JSON data that holds the username and the password
-	key for parameter: "info"
 	Sample JSON:
 	{"user":username, "pwd":pwd}
 
@@ -62,9 +60,7 @@ response:
 
 /updateData
 parameter:
-	key for parameter: "info"
 	String with JSON current data for the current user with the username
-	Sample JSON:
 	{"user":username,"tasks":[tasklist]}
 
 reponse:
@@ -78,7 +74,6 @@ reponse:
 /getData
 
 parameter:
-	key for parameter: "info"
 	String with current user name
 	Sample JSON:
 	{"user":username}
