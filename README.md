@@ -17,8 +17,11 @@ My Webserver API:
 If an extension of the server i.e /create or /updateData requires a parameter, you must send a information formated as a JSON,
 and converted to  a string before you send it through the HTTP Get Request
 
-How to run:
+How to run Jetty Webserver:
 In order to run the webserver, import the webserver project into eclipse and press the Run button in eclipse to start the server.
+
+How to run NodeJs Webserver:
+Navigate to NodeWebserver folder in the terminal and run "node index.js"
 
 /create
 /login
@@ -28,7 +31,6 @@ In order to run the webserver, import the webserver project into eclipse and pre
 /create -
 parameter: 
 	String with JSON data that holds the username and the password
-	key for parameter: "info"
 	{"user":username, "pwd":pwd}
 
 response:
@@ -46,7 +48,6 @@ response:
 /login -
 parameter:
 	String with JSON data that holds the username and the password
-	key for parameter: "info"
 	Sample JSON:
 	{"user":username, "pwd":pwd}
 
@@ -62,7 +63,6 @@ response:
 
 /updateData
 parameter:
-	key for parameter: "info"
 	String with JSON current data for the current user with the username
 	Sample JSON:
 	{"user":username,"tasks":[tasklist]}
@@ -78,7 +78,6 @@ reponse:
 /getData
 
 parameter:
-	key for parameter: "info"
 	String with current user name
 	Sample JSON:
 	{"user":username}
