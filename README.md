@@ -64,7 +64,6 @@ response:
 /updateData
 parameter:
 	String with JSON current data for the current user with the username
-	Sample JSON:
 	{"user":username,"tasks":[tasklist]}
 
 reponse:
