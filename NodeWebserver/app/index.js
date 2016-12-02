@@ -35,6 +35,7 @@ function createUser(id, callback) {
         
             // Insert user
             collection.insert(user, {w:1}, function (err, result) {
+                console.log("creating user");
                 if(err)
                     return callback(false);
                 else
@@ -62,6 +63,7 @@ function findUser(id, callback) {
         
             // Find user
             collection.find(user, function (err, result) {
+                console.log("finding user in database");
                 if(err)
                     return callback(false);
                 else
@@ -86,10 +88,10 @@ function updateData(id, callback) {
 
             // Create user
             var user = {_id:id.user};
-            
+            console.log(id.list);
             // Update user data
             collection.update(user, {$set: {list: id.list}}, function (err, result) {
-                console.log(result);
+                console.log("updating data");
                 if(err)
                     return callback(false);
                 else
@@ -114,13 +116,30 @@ function findUserData(id, callback) {
 
             // Create user
             var user = {_id:id.user};
-        
+            var strJson;
+            var response = {"success":false}
             // Find user
-            collection.find(user, function (err, result) {
-                if(err)
-                    return callback(false);
-                else
-                    return callback(true);
+            collection.find(user).toArray(function (err, result) {
+                console.log("finding user data");
+                if(!err) {
+                    var intCount = result.length;
+                    if (intCount > 0) {
+                        var json;
+                        for (var i = 0; i < intCount; i++) {
+                            console.log(result);
+                            json = result[i].list 
+                        }
+                        response = {"success":true, strJson}
+                        console.log(strJson);
+                    }
+                }
+                if(response.success == false) {
+                    return callback(response);
+                }
+                else {
+                     response = {"success":true, strJson}
+                     return callback(response);
+                }
             });
             //Close connection
             db.close()
@@ -144,8 +163,8 @@ function sendHTTPCodeResponse(response,res) {
         var json = JSON.stringify({'status':200})
         res.end(json);
     } else {
-        res.writeHead(401, {'Content-Type':'application/json'});
-        var json = JSON.stringify({'status':401});
+        res.writeHead(400, {'Content-Type':'application/json'});
+        var json = JSON.stringify({'status':400});
         res.end(json);
     }
 }
@@ -176,7 +195,15 @@ dispatcher.onGet("/updateData", function(req, res) {
 dispatcher.onGet("/getData", function(req, res) {
     var id = getJSONfromURL(req);
     if(findUserData(id, function(response){
-        sendHTTPCodeResponse(response, res);
+        if(response.success) {
+            res.writeHead(201, {'Content-Type':'application/json'});
+            var json = JSON.stringify({'list':response.list});
+            res.end(json);
+        } else {
+            res.writeHead(401, {'Content-Type':'application/json'});
+            var json = JSON.stringify({'status':401});
+            res.end(json);
+        }
     }));
 });
 
