@@ -3,7 +3,7 @@ HokieDo
 
 Simple To Do List Android Application that allows you to add you todo items and check them off as you finish.
 
-// Old Server implementation
+// Old Server implementation - (Android app might not work with the Jetty server)
 Used a Java Serlet webserver to download and upload data (todo items)
 
 Synced data with Java Servlet server
@@ -13,21 +13,16 @@ Uses Nodejs webserver to download and upload data
 
 Syncs using httpGet
 
-My Webserver API:
+##My Webserver API:
 If an extension of the server i.e /create or /updateData requires a parameter, you must send a information formated as a JSON,
 and converted to  a string before you send it through the HTTP Get Request
 
-How to run Jetty Webserver:
-In order to run the webserver, import the webserver project into eclipse and press the Run button in eclipse to start the server.
+##How to run Jetty Webserver:
+1. In order to run the webserver, import the webserver project into eclipse and press the Run button in eclipse to start the server.
 
-How to run NodeJs Webserver:
-Install latest node.js from https://nodejs.org/en/
-Navigate to NodeWebserver folder in the terminal and run "node index.js"
-
-/create
-/login
-/updateData
-/getData
+##How to run NodeJs Webserver:
+1. Install latest node.js from https://nodejs.org/en/ 
+2. Navigate to NodeWebserver folder in the terminal and run "node index.js"
 
 ## Create user
 ####/create
