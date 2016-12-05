@@ -40,8 +40,8 @@ response:
 
 	Sample JSON:
 	{"status":OK|ERROR Code}
-	200 - OK Login
-	401 - Failed Auth. of User
+	201 - OK Login
+	400 - Unable to create
 ```
 ##Login User
 ####/login
@@ -60,7 +60,7 @@ response:
 	Sample JSON:
 	{"status":OK|ERROR Code}
 	200 - OK Login
-	400- Failed Auth. of User
+	401 - Failed Auth. of User
 ```
 
 ## Update user data
@@ -78,8 +78,8 @@ reponse:
 
 	Sample JSON:
 	{"status":OK|ERROR CODE}
-	201 - Success
-	401 - Failed to update
+	200 - Success
+	400 - Failed to update
 ```
 
 ## Get user data
@@ -102,5 +102,5 @@ reponse:
 		OR
 
 	{"status":ERROR CODE}
-	402 - Failed to retrieve task list
+	400 - Failed to retrieve task list
 ```
