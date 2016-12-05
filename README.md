@@ -30,6 +30,7 @@ and converted to  a string before you send it through the HTTP Get Request
 parameter: 
 	String with JSON data that holds the username and the password
 	{"user":username, "pwd":pwd}
+	Example: http://localhost:8080/create?user=test1&pass=test
 ```
 ```
 response:
@@ -49,6 +50,7 @@ parameter:
 	String with JSON data that holds the username and the password
 	Sample JSON:
 	{"user":username, "pwd":pwd}
+	Example: http://localhost:8080/login?user=test1&pass=test
 ```
 ```
 response:
@@ -67,6 +69,7 @@ response:
 parameter:
 	String with JSON current data for the current user with the username
 	{"user":username,"tasks":[tasklist]}
+	Example: http://localhost:8080/updateData?user=test1&list=[1,2,3]
 ```
 ```
 reponse:
@@ -86,7 +89,7 @@ parameter:
 	String with current user name
 	Sample JSON:
 	{"user":username}
-	
+	Example: http://localhost:8080/getData?user=test1
 ```
 ```
 reponse:
