@@ -29,7 +29,8 @@ function createUser(id, callback) {
             console.log('Connection established to', db_url);
             // Get the documents collection
             var collection = db.collection('users');
-
+            if(id.user == null || id.pass == null)
+                return callback(false);
             // Create user
             var user = {_id:id.user, pass:id.pass, list:[]};
         
@@ -57,7 +58,8 @@ function findUser(id, callback) {
             console.log('Connection established to', db_url);
             // Get the documents collection
             var collection = db.collection('users');
-
+            if(id.user == null || id.pass == null)
+                return callback(false);
             // Create user
             var user = {_id:id.user, pass:id.pass};
         
@@ -89,6 +91,7 @@ function updateData(id, callback) {
             // Create user
             var user = {_id:id.user};
             var list = '{"list":'+id.list+'}';
+            // Check to see if vaild parameter
             list = JSON.parse(list);
             // Update user data
             collection.update(user, {$set: list}, function (err, result) {
@@ -114,6 +117,10 @@ function findUserData(id, callback) {
             console.log('Connection established to', db_url);
             // Get the documents collection
             var collection = db.collection('users');
+
+            if(id.user == null) {
+                return callback(false);
+            }   
 
             // Create user
             var user = {_id:id.user};
@@ -158,14 +165,14 @@ function handleRequest(request, response) {
     }
 }
 
-function sendHTTPCodeResponse(response,res) {
+function sendHTTPCodeResponse(err_code,response,res) {
     if(response) {
-        res.writeHead(200, {'Content-Type':'application/json'});
-        var json = JSON.stringify({'status':200})
+        res.writeHead(err_code.success, {'Content-Type':'application/json'});
+        var json = JSON.stringify({'status':err_code.success})
         res.end(json);
     } else {
-        res.writeHead(400, {'Content-Type':'application/json'});
-        var json = JSON.stringify({'status':400});
+        res.writeHead(err_code.error, {'Content-Type':'application/json'});
+        var json = JSON.stringify({'status':err_code.error});
         res.end(json);
     }
 }
@@ -174,37 +181,33 @@ function sendHTTPCodeResponse(response,res) {
 //Descriptions are in my_webserver_api.txt
 dispatcher.onGet("/create", function(req, res) {
     var id = getJSONfromURL(req);
+    var err_code = {"success":200, "error":400};
     if(createUser(id, function(response){
-        sendHTTPCodeResponse(response, res);
+        sendHTTPCodeResponse(err_code, response, res);
     }));
 });
 
 dispatcher.onGet("/login", function(req, res) {
     var id = getJSONfromURL(req);
+    var err_code = {"success":200, "error":400};
     if(findUser(id, function(response){
-        sendHTTPCodeResponse(response, res);
+        sendHTTPCodeResponse(err_code, response, res);
     }));
 });
 
 dispatcher.onGet("/updateData", function(req, res) {
     var id = getJSONfromURL(req);
+    var err_code = {"success":200, "error":401};
     if(updateData(id, function(response){
-        sendHTTPCodeResponse(response, res);
+        sendHTTPCodeResponse(err_code, response, res);
     }));
 });
 
 dispatcher.onGet("/getData", function(req, res) {
     var id = getJSONfromURL(req);
+    var err_code = {"success":200, "error":402};
     if(findUserData(id, function(response){
-        if(response.success) {
-            res.writeHead(201, {'Content-Type':'application/json'});
-            var json = JSON.stringify({'list':response.list});
-            res.end(json);
-        } else {
-            res.writeHead(401, {'Content-Type':'application/json'});
-            var json = JSON.stringify({'status':401});
-            res.end(json);
-        }
+        sendHTTPCodeResponse(err_code, response, res);
     }));
 });
 
