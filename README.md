@@ -21,6 +21,7 @@ How to run Jetty Webserver:
 In order to run the webserver, import the webserver project into eclipse and press the Run button in eclipse to start the server.
 
 How to run NodeJs Webserver:
+Install latest node.js from https://nodejs.org/en/
 Navigate to NodeWebserver folder in the terminal and run "node index.js"
 
 /create
