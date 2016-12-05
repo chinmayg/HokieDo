@@ -181,7 +181,7 @@ function sendHTTPCodeResponse(err_code,response,res) {
 //Descriptions are in my_webserver_api.txt
 dispatcher.onGet("/create", function(req, res) {
     var id = getJSONfromURL(req);
-    var err_code = {"success":200, "error":400};
+    var err_code = {"success":201, "error":400};
     if(createUser(id, function(response){
         sendHTTPCodeResponse(err_code, response, res);
     }));
@@ -189,7 +189,7 @@ dispatcher.onGet("/create", function(req, res) {
 
 dispatcher.onGet("/login", function(req, res) {
     var id = getJSONfromURL(req);
-    var err_code = {"success":200, "error":400};
+    var err_code = {"success":200, "error":401};
     if(findUser(id, function(response){
         sendHTTPCodeResponse(err_code, response, res);
     }));
@@ -197,7 +197,7 @@ dispatcher.onGet("/login", function(req, res) {
 
 dispatcher.onGet("/updateData", function(req, res) {
     var id = getJSONfromURL(req);
-    var err_code = {"success":200, "error":401};
+    var err_code = {"success":200, "error":400};
     if(updateData(id, function(response){
         sendHTTPCodeResponse(err_code, response, res);
     }));
@@ -205,7 +205,7 @@ dispatcher.onGet("/updateData", function(req, res) {
 
 dispatcher.onGet("/getData", function(req, res) {
     var id = getJSONfromURL(req);
-    var err_code = {"success":200, "error":402};
+    var err_code = {"success":200, "error":400};
     if(findUserData(id, function(response){
         sendHTTPCodeResponse(err_code, response, res);
     }));
