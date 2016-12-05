@@ -29,7 +29,8 @@ Navigate to NodeWebserver folder in the terminal and run "node index.js"
 /updateData
 /getData
 
-/create -
+## Create user
+####/create
 ```
 parameter: 
 	String with JSON data that holds the username and the password
@@ -46,7 +47,8 @@ response:
 	200 - OK Login
 	401 - Failed Auth. of User
 ```
-/login -
+##Login User
+####/login
 ```
 parameter:
 	String with JSON data that holds the username and the password
@@ -64,7 +66,8 @@ response:
 	400- Failed Auth. of User
 ```
 
-/updateData
+## Update user data
+####/updateData
 ```
 parameter:
 	String with JSON current data for the current user with the username
@@ -81,7 +84,8 @@ reponse:
 	401 - Failed to update
 ```
 
-/getData
+## Get user data
+####/getData
 ```
 parameter:
 	String with current user name
