@@ -1,5 +1,5 @@
 #Internal package file, do not edit.
-#Tue Nov 29 15:07:01 EST 2016
+#Wed Nov 30 23:21:36 PST 2016
 19.set=ANDROID_RESOURCE
 8.set=ANDROID_RESOURCE
 1.base=/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/build/intermediates/res/resources-debug.ap_
@@ -12,7 +12,7 @@
 5.file=/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/build/intermediates/res/resources-debug.ap_/resources.arsc
 7.base=/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/build/intermediates/res/resources-debug.ap_
 7.file=/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/build/intermediates/res/resources-debug.ap_/res/menu-v11/pref.xml
-11.file=/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/build/intermediates/res/resources-debug.ap_/res/layout/activity_pref.xml
+11.file=/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/build/intermediates/res/resources-debug.ap_/AndroidManifest.xml
 11.base=/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/build/intermediates/res/resources-debug.ap_
 9.base=/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/build/intermediates/res/resources-debug.ap_
 9.file=/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/build/intermediates/res/resources-debug.ap_/res/layout/activity_main.xml
@@ -42,7 +42,7 @@
 6.base=/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/build/intermediates/res/resources-debug.ap_
 6.file=/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/build/intermediates/res/resources-debug.ap_/res/menu/main.xml
 10.base=/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/build/intermediates/res/resources-debug.ap_
-10.file=/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/build/intermediates/res/resources-debug.ap_/AndroidManifest.xml
+10.file=/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/build/intermediates/res/resources-debug.ap_/res/layout/activity_pref.xml
 13.set=ANDROID_RESOURCE
 8.base=/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/build/intermediates/res/resources-debug.ap_
 8.file=/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/build/intermediates/res/resources-debug.ap_/res/menu-v11/login.xml

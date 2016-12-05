@@ -7,17 +7,8 @@
         jumboMode="true"
         optimize="true"
         revision="22.0.1"
-        sha1="8aa5ed88158655301e589893f5d4dd939de9ff26">
+        sha1="548625e62c3cfbe1059af54667d86ef2fec6ee8e">
         <dex dex="/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_079dedefea650fb364b5a993cb571a22a2005ca0/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/cghotkar/Library/Android/sdk/extras/android/m2repository/com/android/support/support-v4/18.0.0/support-v4-18.0.0.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="22.0.1"
-        sha1="44ec51e9d395a47aab135e5e1b556c0007442156">
-        <dex dex="/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/build/intermediates/transforms/dex/debug/folders/1000/10/support-v4-18.0.0_c1a46a0b81ee87ade462dec5be48b845bb79aa68/classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -30,11 +21,20 @@
     </item>
     <item
         is-multidex="true"
+        jar="/Users/cghotkar/Library/Android/sdk/extras/android/m2repository/com/android/support/support-v4/18.0.0/support-v4-18.0.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="22.0.1"
+        sha1="44ec51e9d395a47aab135e5e1b556c0007442156">
+        <dex dex="/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/build/intermediates/transforms/dex/debug/folders/1000/10/support-v4-18.0.0_c1a46a0b81ee87ade462dec5be48b845bb79aa68/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
         jumboMode="true"
         optimize="true"
         revision="22.0.1"
-        sha1="780705145f5978f9ced0dbb5c20165af79f9620d">
+        sha1="f0d2a0f082e50a186542dbddc99ead7c02a3d9d3">
         <dex dex="/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_197a8628c5068d5ca3599a92ccbef7ed074b4eaa/classes.dex" />
     </item>
 

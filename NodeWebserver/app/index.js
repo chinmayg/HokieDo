@@ -88,9 +88,10 @@ function updateData(id, callback) {
 
             // Create user
             var user = {_id:id.user};
-            console.log(id.list);
+            var list = '{"list":'+id.list+'}';
+            list = JSON.parse(list);
             // Update user data
-            collection.update(user, {$set: {list: id.list}}, function (err, result) {
+            collection.update(user, {$set: list}, function (err, result) {
                 console.log("updating data");
                 if(err)
                     return callback(false);

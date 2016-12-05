@@ -5,36 +5,36 @@
     density="xxhdpi"
     format="8"
     plugin-version="2.2.2"
-    timestamp="720298399945457"
+    timestamp="755024058806349"
     token="1042290510844452337"
     verifier="COLD_SWAP_REQUESTED" >
 
     <task
         name="javac"
-        duration="132" />
+        duration="143" />
     <task
         name="instant-run-dex"
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="8" />
+        duration="23" />
     <task
         name="verifier"
-        duration="0" />
+        duration="1" />
 
     <artifact
         location="/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_0/classes.dex"
         type="DEX" />
 
     <build
-        timestamp="718909753305882"
+        timestamp="752125372431426"
         verifier="FULL_BUILD_REQUESTED" >
         <artifact
             location="/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/build/outputs/apk/app-debug.apk"
             type="MAIN" />
     </build>
     <build
-        timestamp="720298399945457"
+        timestamp="755024058806349"
         verifier="COLD_SWAP_REQUESTED" >
         <artifact
             location="/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_0/classes.dex"

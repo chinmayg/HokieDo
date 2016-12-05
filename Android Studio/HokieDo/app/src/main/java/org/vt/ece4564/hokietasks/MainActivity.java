@@ -58,8 +58,7 @@ public class MainActivity extends Activity {
 	static final int MAX_QUEUE_SIZE = 10;
 	ProgressDialog pd_;
 	String username_ = null;
-	String password_ = null;
-	String websiteURL_ = null;
+	String websiteURL_ = "NULL";
 	String jsonString_ = null;
 	JSONArray msg;
 	AlertDialog randomTask;
@@ -111,9 +110,7 @@ public class MainActivity extends Activity {
             public void onClick(View v) {
                 myPrefs = MainActivity.this.getSharedPreferences("myPrefs", MODE_WORLD_READABLE);
                 username_ = myPrefs.getString("USER", "nothing");
-                if(isWebserverSet()) {
-                    saveData();
-                }
+				saveData();
             }
 
         });
@@ -123,9 +120,7 @@ public class MainActivity extends Activity {
             public void onClick(View v) {
                 myPrefs = MainActivity.this.getSharedPreferences("myPrefs", MODE_WORLD_READABLE);
                 username_ = myPrefs.getString("USER", "nothing");
-                if(isWebserverSet()) {
-                    updateUI();
-                }
+				updateUI();
             }
 
         });
@@ -154,8 +149,14 @@ public class MainActivity extends Activity {
 		protected Long doInBackground(String... cred) {
 			HttpResponse response = null;
 			long returnStat = -1;
-			String newURL = addLocationToUrl(websiteURL_ + cred[1], cred[0],
-					cred[1]);
+            String newURL;
+            if(cred[1].contains("updateData")){
+                String list = convertArrayListToString();
+                newURL = createURLwithList(websiteURL_ + cred[1], cred[0], list);
+            } else {
+                newURL = createURLwithoutList(websiteURL_ + cred[1], cred[0]);
+            }
+
 			HttpClient httpclient = new DefaultHttpClient();
 			HttpGet httpget = new HttpGet(newURL);
 			Log.i(TAG, newURL);
@@ -173,16 +174,17 @@ public class MainActivity extends Activity {
 					Log.i(TAG, jsonString_);
 					if (cred[1].equals("getData")) {
 						JSONParser parser = new JSONParser();
-						jsonString_ = jsonString_.replace("\\", " ");
-						Log.i(TAG, jsonString_);
 						Object obj = parser.parse(jsonString_);
 						JSONObject jsonObject = (JSONObject) obj;
-						msg = (JSONArray) jsonObject.get("tasks");
+						msg = (JSONArray) jsonObject.get("list");
 						rows.clear();
-						for (int i = 0; i < msg.size(); i++) {
-							rows.add(msg.get(i).toString());
-						}
-						Log.i(TAG, msg.size() + "");
+                        if(msg != null) {
+                            for (int i = 0; i < msg.size(); i++) {
+                                rows.add(msg.get(i).toString());
+                            }
+                            Log.i(TAG, msg.size() + "");
+                        }
+
 					}
 				}
 
@@ -261,22 +263,30 @@ public class MainActivity extends Activity {
 
 		}
 
-		protected String addLocationToUrl(String url, String user, String type) {
-			if (!url.endsWith("?"))
+		protected String createURLwithList(String url, String user, String list) {
+			if(!url.endsWith("?"))
 				url += "?";
-			JSONObject obj = new JSONObject();
-			obj.put("user", user);
-			if (type.equals("updateData"))
-				obj.put("task", rows);
-			Log.i(TAG, obj.toString());
-			List<NameValuePair> params = new LinkedList<NameValuePair>();
-			params.add(new BasicNameValuePair("info", obj.toString()));
 
-			String paramString = URLEncodedUtils.format(params, "utf-8");
-
-			url += paramString;
+			url += "user="+user+"&list=["+list + "]";
 			return url;
 		}
+
+        protected String createURLwithoutList(String url, String user) {
+            if(!url.endsWith("?"))
+                url += "?";
+
+            url += "user="+user;
+            return url;
+        }
+
+        protected String convertArrayListToString() {
+            String list = "";
+            for(int i = 0; i < rows.size()-1; i++) {
+                list += rows.get(i) + ",";
+            }
+            list += rows.get(rows.size());
+            return list;
+        }
 	}
 
 	private void updateUI() {
@@ -284,7 +294,9 @@ public class MainActivity extends Activity {
 		websiteURL_ = myPrefs.getString("SOCKET", "nothing");
 		pd_ = ProgressDialog.show(MainActivity.this, null, "Downloading...");
 		pd_.setCancelable(true);
-		new HandleAuth().execute(username_, "getData");
+		if(isWebserverSet()){
+			new HandleAuth().execute(username_, "getData");
+		}
 	}
 
 	private void saveData() {
@@ -293,7 +305,9 @@ public class MainActivity extends Activity {
 		pd_ = ProgressDialog.show(MainActivity.this, null,
 				"Saving to Server...");
 		pd_.setCancelable(true);
-		new HandleAuth().execute(username_, "updateData");
+		if(isWebserverSet()) {
+			new HandleAuth().execute(username_, "updateData");
+		}
 	}
 
 	@Override

@@ -1,4 +1,4 @@
-#Tue Nov 29 15:07:07 EST 2016
+#Wed Nov 30 23:21:42 PST 2016
 base.0=/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_079dedefea650fb364b5a993cb571a22a2005ca0
 renamed.1=classes.dex
 renamed.0=classes2.dex
