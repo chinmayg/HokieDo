@@ -48,7 +48,7 @@ function createUser(id, callback) {
     });
 }
 
-function findUser(id, callback) {
+function loginUser(id, callback) {
     console.log(id);
     // Use connect method to connect to the Server
     MongoClient.connect(db_url, function (err, db) {
@@ -60,17 +60,20 @@ function findUser(id, callback) {
             var collection = db.collection('users');
             if(id.user == null || id.pass == null)
                 return callback(false);
-            // Create user
-            var user = {_id:id.user, pass:id.pass};
-        
-            // Find user
-            collection.find(user, function (err, result) {
-                console.log("finding user in database");
-                if(err)
-                    return callback(false);
-                else
-                    return callback(true);
-            });
+            // Find user and compare pass
+            var user = {"_id":id.user, "pass":id.pass};
+             collection.find(user).toArray(function (err, result) {
+                console.log("finding user data");
+                if(!err) {
+                    var intCount = result.length;
+                    if (intCount != 0) {
+                        return callback(true);
+                    }
+                    else {
+                        return callback(false);
+                    }
+                }
+            });       
             //Close connection
             db.close()
         }
@@ -190,7 +193,7 @@ dispatcher.onGet("/create", function(req, res) {
 dispatcher.onGet("/login", function(req, res) {
     var id = getJSONfromURL(req);
     var err_code = {"success":200, "error":401};
-    if(findUser(id, function(response){
+    if(loginUser(id, function(response){
         sendHTTPCodeResponse(err_code, response, res);
     }));
 });
