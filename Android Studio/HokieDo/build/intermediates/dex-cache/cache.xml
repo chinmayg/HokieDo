@@ -7,7 +7,7 @@
         jumboMode="true"
         optimize="true"
         revision="22.0.1"
-        sha1="548625e62c3cfbe1059af54667d86ef2fec6ee8e">
+        sha1="4fdb721620b29d9b8f00e874ae85ac4b5ba7ddd2">
         <dex dex="/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_079dedefea650fb364b5a993cb571a22a2005ca0/classes.dex" />
     </item>
     <item
@@ -21,12 +21,48 @@
     </item>
     <item
         is-multidex="true"
-        jar="/Users/cghotkar/Library/Android/sdk/extras/android/m2repository/com/android/support/support-v4/18.0.0/support-v4-18.0.0.jar"
+        jar="/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/8.4.0/jars/classes.jar"
         jumboMode="true"
         optimize="true"
         revision="22.0.1"
-        sha1="44ec51e9d395a47aab135e5e1b556c0007442156">
-        <dex dex="/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/build/intermediates/transforms/dex/debug/folders/1000/10/support-v4-18.0.0_c1a46a0b81ee87ade462dec5be48b845bb79aa68/classes.dex" />
+        sha1="8e673cdfadd8f2d98fdb2fda2285c30f6e449782">
+        <dex dex="/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-basement-8.4.0_608986074c52211bbb764c04c5d26b8c73956c57/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-appindexing/8.4.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="22.0.1"
+        sha1="65d086ee9daaf87b5af62ad24471edafa433354c">
+        <dex dex="/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-appindexing-8.4.0_8441ceda533b2a6eb022fe693f515a802319e00e/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.0/jars/libs/internal_impl-23.0.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="22.0.1"
+        sha1="8bd336eeae661e8311330284897ee07f8ebaa297">
+        <dex dex="/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-23.0.0_9c30e2c787b9aa84ace0d96ee3485628a1d2bb0c/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="22.0.1"
+        sha1="fef2b3e4b6b1b0e5fe7b69fa137a5fa55a3182ab">
+        <dex dex="/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-base-8.4.0_fd540dbdde0607c86e7eb6a097896ef087ad00ce/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="22.0.1"
+        sha1="8413c27b45b7fe61dca4a98159f65e2cee215f5a">
+        <dex dex="/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-v4-23.0.0_4ff845dc4e7d5b659c4fd66bc269c4bc433f593d/classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -34,8 +70,17 @@
         jumboMode="true"
         optimize="true"
         revision="22.0.1"
-        sha1="f0d2a0f082e50a186542dbddc99ead7c02a3d9d3">
+        sha1="86ef355bfb8ecd889898c8e111355c5bd2e61a97">
         <dex dex="/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_197a8628c5068d5ca3599a92ccbef7ed074b4eaa/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/cghotkar/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/23.0.0/support-annotations-23.0.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="22.0.1"
+        sha1="990e7f98a7bad86a40b1f0bcfeb039023afd0839">
+        <dex dex="/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/build/intermediates/transforms/dex/debug/folders/1000/10/support-annotations-23.0.0_c787dfca6aee9bf373d9932d32503bde91765548/classes.dex" />
     </item>
 
 </items>

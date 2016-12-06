@@ -1,6 +1,6 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/src/main/AndroidManifest.xml:2:1-41:12
+ADDED from /Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/src/main/AndroidManifest.xml:2:1-45:12
 	package
 		ADDED from /Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/src/main/AndroidManifest.xml:3:5-40
 		INJECTED from /Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/src/main/AndroidManifest.xml
@@ -17,6 +17,10 @@ ADDED from /Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studi
 		ADDED from /Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/src/main/AndroidManifest.xml:2:11-69
 uses-sdk
 ADDED from /Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/src/main/AndroidManifest.xml:7:5-9:41
+MERGED from [com.google.android.gms:play-services-appindexing:8.4.0] /Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-appindexing/8.4.0/AndroidManifest.xml:18:5-42
+MERGED from [com.google.android.gms:play-services-base:8.4.0] /Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/AndroidManifest.xml:18:5-42
+MERGED from [com.google.android.gms:play-services-basement:8.4.0] /Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/8.4.0/AndroidManifest.xml:18:5-42
+MERGED from [com.android.support:support-v4:23.0.0] /Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.0/AndroidManifest.xml:20:5-43
 	android:targetSdkVersion
 		ADDED from /Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/src/main/AndroidManifest.xml:9:9-38
 		INJECTED from /Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/src/main/AndroidManifest.xml
@@ -34,7 +38,10 @@ ADDED from /Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studi
 	android:name
 		ADDED from /Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/src/main/AndroidManifest.xml:12:19-60
 application
-ADDED from /Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/src/main/AndroidManifest.xml:13:5-40:19
+ADDED from /Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/src/main/AndroidManifest.xml:13:5-44:19
+MERGED from [com.google.android.gms:play-services-appindexing:8.4.0] /Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-appindexing/8.4.0/AndroidManifest.xml:19:5-20
+MERGED from [com.google.android.gms:play-services-basement:8.4.0] /Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/8.4.0/AndroidManifest.xml:20:5-24:19
+MERGED from [com.android.support:support-v4:23.0.0] /Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.0/AndroidManifest.xml:22:5-20
 	android:label
 		ADDED from /Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/src/main/AndroidManifest.xml:16:9-41
 	android:allowBackup
@@ -79,3 +86,10 @@ ADDED from /Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studi
 		ADDED from /Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/src/main/AndroidManifest.xml:38:13-56
 	android:name
 		ADDED from /Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/src/main/AndroidManifest.xml:37:13-66
+meta-data#com.google.android.gms.version
+ADDED from /Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/src/main/AndroidManifest.xml:41:9-43:69
+MERGED from [com.google.android.gms:play-services-basement:8.4.0] /Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/8.4.0/AndroidManifest.xml:21:9-23:69
+	android:value
+		ADDED from /Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/src/main/AndroidManifest.xml:43:13-66
+	android:name
+		ADDED from /Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/src/main/AndroidManifest.xml:42:13-58

@@ -127,7 +127,7 @@ function findUserData(id, callback) {
 
             // Create user
             var user = {_id:id.user};
-            var strJson;
+            var json;
             var response = {"success":false}
             // Find user
             collection.find(user).toArray(function (err, result) {
@@ -135,20 +135,19 @@ function findUserData(id, callback) {
                 if(!err) {
                     var intCount = result.length;
                     if (intCount > 0) {
-                        var json;
                         for (var i = 0; i < intCount; i++) {
                             console.log(result);
                             json = result[i].list 
                         }
-                        response = {"success":true, strJson}
-                        console.log(strJson);
+                        response = {"success":true, json}
+                        console.log(json);
                     }
                 }
                 if(response.success == false) {
                     return callback(response);
                 }
                 else {
-                     response = {"success":true, strJson}
+                     response = {"success":true, "list":json}
                      return callback(response);
                 }
             });
@@ -210,7 +209,16 @@ dispatcher.onGet("/getData", function(req, res) {
     var id = getJSONfromURL(req);
     var err_code = {"success":200, "error":400};
     if(findUserData(id, function(response){
-        sendHTTPCodeResponse(err_code, response, res);
+        if(response) {
+            res.writeHead(err_code.success, {'Content-Type':'application/json'});
+            console.log(response.list);
+            var json = JSON.stringify({"list":response.list})
+            res.end(json);
+        } else {
+            res.writeHead(err_code.error, {'Content-Type':'application/json'});
+            var json = JSON.stringify({'status':err_code.error});
+            res.end(json);
+        }
     }));
 });
 

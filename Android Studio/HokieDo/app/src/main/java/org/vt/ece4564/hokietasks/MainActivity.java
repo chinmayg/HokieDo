@@ -2,19 +2,16 @@ package org.vt.ece4564.hokietasks;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Random;
 import java.util.concurrent.ArrayBlockingQueue;
 
 import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
+import org.apache.http.ProtocolVersion;
+import org.apache.http.StatusLine;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.message.BasicHttpResponse;
 import org.apache.http.util.EntityUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -34,12 +31,10 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Vibrator;
-import android.util.FloatMath;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -48,7 +43,6 @@ import android.widget.TableRow;
 
 public class MainActivity extends Activity {
 
-	ArrayList<OnClickListener> listOfListeners = new ArrayList<OnClickListener>();
 	ArrayList<String> rows = new ArrayList<String>();
 	TableLayout taskTable;
 	EditText taskText;
@@ -68,7 +62,6 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		q = new ArrayBlockingQueue<String>(MAX_QUEUE_SIZE);
-		//Intent i = new Intent(MainActivity.this, PrefActivity.class);
 		Intent i = new Intent(MainActivity.this, LoginActivity.class);
 		startActivity(i);
 
@@ -145,94 +138,96 @@ public class MainActivity extends Activity {
 
         return ret;
     }
-	private class HandleAuth extends AsyncTask<String, Void, Long> {
-		protected Long doInBackground(String... cred) {
-			HttpResponse response = null;
-			long returnStat = -1;
-            String newURL;
-            if(cred[1].contains("updateData")){
-                String list = convertArrayListToString();
-                newURL = createURLwithList(websiteURL_ + cred[1], cred[0], list);
-            } else {
-                newURL = createURLwithoutList(websiteURL_ + cred[1], cred[0]);
-            }
+
+	private class DownloadDataHandleAuth extends AsyncTask<String, Void, HttpResponse> {
+		protected HttpResponse doInBackground(String... cred) {
+			StatusLine error = new StatusLine() {
+				@Override
+				public ProtocolVersion getProtocolVersion() {
+					return null;
+				}
+
+				@Override
+				public int getStatusCode() {
+					return 404;
+				}
+
+				@Override
+				public String getReasonPhrase() {
+					return null;
+				}
+			};
+			HttpResponse response = new BasicHttpResponse(error);
+			String newURL;
+			newURL = createURLwithoutList(websiteURL_ + cred[1], cred[0]);
 
 			HttpClient httpclient = new DefaultHttpClient();
 			HttpGet httpget = new HttpGet(newURL);
 			Log.i(TAG, newURL);
-			Log.i(TAG, "Before Network Task");
 
 			// Execute HTTP Post Request
 			try {
 				response = httpclient.execute(httpget);
 				if(response == null){
-					return (returnStat = -3);
+					response.setStatusCode(404);
+					return response;
 				}
-				if (response.getStatusLine().getStatusCode() == 201 || response.getStatusLine().getStatusCode() == 200) {
-					jsonString_ = EntityUtils.toString(response.getEntity());
-					Log.i(TAG, response.getStatusLine().toString());
-					Log.i(TAG, jsonString_);
-					if (cred[1].equals("getData")) {
-						JSONParser parser = new JSONParser();
-						Object obj = parser.parse(jsonString_);
-						JSONObject jsonObject = (JSONObject) obj;
-						msg = (JSONArray) jsonObject.get("list");
-						rows.clear();
-                        if(msg != null) {
-                            for (int i = 0; i < msg.size(); i++) {
-                                rows.add(msg.get(i).toString());
-                            }
-                            Log.i(TAG, msg.size() + "");
-                        }
-
-					}
-				}
-
 			} catch (ClientProtocolException e) {
 				Log.e(TAG, e.getMessage());
 				e.printStackTrace();
 			} catch (IOException e) {
 				Log.e(TAG, e.getMessage());
 				e.printStackTrace();
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}			
-			if(response == null){
-				returnStat = -3;
 			}
-			else if (response.getStatusLine().getStatusCode() == 201)
-				returnStat = 1;
-			else if (response.getStatusLine().getStatusCode() == 200)
-				returnStat = 2;
-			else if (response.getStatusLine().getStatusCode() == 401)
-				returnStat = -1;
-			else if (response.getStatusLine().getStatusCode() == 400)
-				returnStat = -2;
-			else if (response.getStatusLine() == null)
-				returnStat = -3;
-			return returnStat;
+
+			return response;
 
 		}
 
 		// Run on UI Thread
-		protected void onPostExecute(Long result) {
+		protected void onPostExecute(HttpResponse result) {
 			pd_.dismiss();
-			if (result == 1) {
+			StatusLine code = result.getStatusLine();
+			int status_code = code.getStatusCode();
+
+			if (status_code == 200) {
 				Log.i(TAG, "Data Downloaded");
 				taskTable.removeAllViews();
 				Log.i(TAG, rows.size() + "");
-				for (int i = 0; i < rows.size(); i++) {
-					TableRow row = new TableRow(MainActivity.this);
-					CheckBox box = new CheckBox(MainActivity.this);
-					EditText rowText = new EditText(MainActivity.this);
-					rowText.setText(rows.get(i).toString());
-					row.addView(box);
-					row.addView(rowText);
-					taskTable.addView(row);
+				try {
+					jsonString_ = EntityUtils.toString(result.getEntity());
+					Log.i(TAG, result.getStatusLine().toString());
+					Log.i(TAG, jsonString_);
+
+					JSONParser parser = new JSONParser();
+					Object obj = parser.parse(jsonString_);
+					JSONObject jsonObject = (JSONObject) obj;
+					msg = (JSONArray) jsonObject.get("list");
+					rows.clear();
+					if (msg != null) {
+						for (int i = 0; i < msg.size(); i++) {
+							rows.add(msg.get(i).toString());
+						}
+						Log.i(TAG, msg.size() + "");
+					}
+
+					for (int i = 0; i < rows.size(); i++) {
+						TableRow row = new TableRow(MainActivity.this);
+						CheckBox box = new CheckBox(MainActivity.this);
+						EditText rowText = new EditText(MainActivity.this);
+						rowText.setText(rows.get(i).toString());
+						row.addView(box);
+						row.addView(rowText);
+						taskTable.addView(row);
+					}
+				} catch (IOException e) {
+					Log.e(TAG, e.getMessage());
+					e.printStackTrace();
+				} catch (ParseException e){
+					Log.e(TAG, e.getMessage());
+					e.printStackTrace();
 				}
-			} else if (result == 2) {
-				Log.i(TAG, "Data Updated");
-			} else if (result == -1) {
+			} else if (status_code == 400) {
 				AlertDialog.Builder builder = new AlertDialog.Builder(
 						MainActivity.this);
 				// Add the buttons
@@ -247,7 +242,103 @@ public class MainActivity extends Activity {
 				AlertDialog dialog = builder.create();
 				dialog.show();
 			}
-			else if (result == -3){
+			else if (status_code == 404){
+				AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+				// Add the buttons
+				builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						// User clicked OK button
+					}
+				});
+				builder.setMessage("Unable to connect to server.");
+				// Create the AlertDialog
+				AlertDialog dialog = builder.create();
+				dialog.show();
+			}
+
+		}
+
+		protected String createURLwithoutList(String url, String user) {
+			if(!url.endsWith("?"))
+				url += "?";
+
+			url += "user="+user;
+			return url;
+		}
+	}
+
+	private class UploadDataHandleAuth extends AsyncTask<String, Void, HttpResponse> {
+		protected HttpResponse doInBackground(String... cred) {
+			StatusLine error = new StatusLine() {
+				@Override
+				public ProtocolVersion getProtocolVersion() {
+					return null;
+				}
+
+				@Override
+				public int getStatusCode() {
+					return 404;
+				}
+
+				@Override
+				public String getReasonPhrase() {
+					return null;
+				}
+			};
+			HttpResponse response = new BasicHttpResponse(error);
+            String newURL;
+			String list = convertArrayListToString();
+			newURL = createURLwithList(websiteURL_ + cred[1], cred[0], list);
+
+			HttpClient httpclient = new DefaultHttpClient();
+			HttpGet httpget = new HttpGet(newURL);
+			Log.i(TAG, newURL);
+			Log.i(TAG, "Before Network Task");
+
+			// Execute HTTP Post Request
+			try {
+				response = httpclient.execute(httpget);
+				if(response == null){
+					return response;
+				}
+
+
+			} catch (ClientProtocolException e) {
+				Log.e(TAG, e.getMessage());
+				e.printStackTrace();
+			} catch (IOException e) {
+				Log.e(TAG, e.getMessage());
+				e.printStackTrace();
+			}
+
+			return response;
+
+		}
+
+		// Run on UI Thread
+		protected void onPostExecute(HttpResponse result) {
+			pd_.dismiss();
+			StatusLine code = result.getStatusLine();
+			int status_code = code.getStatusCode();
+
+			if (status_code == 200) {
+				Log.i(TAG, "Data Updated");
+			} else if (status_code == 400) {
+				AlertDialog.Builder builder = new AlertDialog.Builder(
+						MainActivity.this);
+				// Add the buttons
+				builder.setPositiveButton("OK",
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int id) {
+								// User clicked OK button
+							}
+						});
+				builder.setMessage("User was not Found!");
+				// Create the AlertDialog
+				AlertDialog dialog = builder.create();
+				dialog.show();
+			}
+			else if (status_code == 404){
 				AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
 				// Add the buttons
 				builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -271,20 +362,18 @@ public class MainActivity extends Activity {
 			return url;
 		}
 
-        protected String createURLwithoutList(String url, String user) {
-            if(!url.endsWith("?"))
-                url += "?";
-
-            url += "user="+user;
-            return url;
-        }
-
         protected String convertArrayListToString() {
-            String list = "";
-            for(int i = 0; i < rows.size()-1; i++) {
-                list += rows.get(i) + ",";
-            }
-            list += rows.get(rows.size());
+			String list = "";
+			if (rows.size() == 0) {
+				return list;
+			} else if (rows.size() == 1) {
+				list += rows.get(0);
+			} else {
+				for (int i = 0; i < rows.size(); i++) {
+					list += rows.get(i) + ",";
+				}
+				list += rows.get(rows.size());
+			}
             return list;
         }
 	}
@@ -295,7 +384,7 @@ public class MainActivity extends Activity {
 		pd_ = ProgressDialog.show(MainActivity.this, null, "Downloading...");
 		pd_.setCancelable(true);
 		if(isWebserverSet()){
-			new HandleAuth().execute(username_, "getData");
+			new DownloadDataHandleAuth().execute(username_, "getData");
 		}
 	}
 
@@ -306,7 +395,7 @@ public class MainActivity extends Activity {
 				"Saving to Server...");
 		pd_.setCancelable(true);
 		if(isWebserverSet()) {
-			new HandleAuth().execute(username_, "updateData");
+			new UploadDataHandleAuth().execute(username_, "updateData");
 		}
 	}
 
