@@ -1,23 +1,20 @@
-//Import the HTTP module
-var http = require('http');
-var HttpDispatcher = require('httpdispatcher');
-var dispatcher = new HttpDispatcher();
-var url = require('url');
+//Import the Mongo DB
 var mongodb = require('mongodb');
 var MongoClient = mongodb.MongoClient;
 var db_url = 'mongodb://localhost:27017/todo';
 
-dispatcher.setStatic('/resources');
-dispatcher.setStaticDirname('static');
+//Import Express and BodyParser
+var express = require('express');
+var app = express();
+var bodyParser = require('body-parser');
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 
 //Set port we are listening too
 const PORT=8080;
-
-function getJSONfromURL(request) {
-    var parsedUrl = url.parse(request.url, true); // true to get query as object
-    var queryAsObject = parsedUrl.query;
-    return queryAsObject;
-}
 
 function createUser(id, callback) {
     console.log(id);
@@ -50,6 +47,7 @@ function createUser(id, callback) {
 
 function loginUser(id, callback) {
     console.log(id);
+
     // Use connect method to connect to the Server
     MongoClient.connect(db_url, function (err, db) {
         if (err) {
@@ -91,13 +89,11 @@ function updateData(id, callback) {
             // Get the documents collection
             var collection = db.collection('users');
 
-            // Create user
-            var user = {_id:id.user};
-            var list = '{"list":'+id.list+'}';
-            // Check to see if vaild parameter
-            list = JSON.parse(list);
+            // Query for user
+            var user = {_id:id.user}; 
+
             // Update user data
-            collection.update(user, {$set: list}, function (err, result) {
+            collection.update(user, {$set: {"list":id.list}}, function (err, result) {
                 console.log("updating data");
                 if(err)
                     return callback(false);
@@ -157,76 +153,50 @@ function findUserData(id, callback) {
     });   
 }
 
-//Function for handling requests and send respose
-function handleRequest(request, response) {
-    try {
-        console.log(request.url);
-        dispatcher.dispatch(request, response);
-    } catch(err) {
-        console.log(err); 
-    }
-}
-
 function sendHTTPCodeResponse(err_code,response,res) {
     if(response) {
-        res.writeHead(err_code.success, {'Content-Type':'application/json'});
-        var json = JSON.stringify({'status':err_code.success})
-        res.end(json);
+        res.status(err_code.success).json({'status':err_code.success});
     } else {
-        res.writeHead(err_code.error, {'Content-Type':'application/json'});
-        var json = JSON.stringify({'status':err_code.error});
-        res.end(json);
+        res.status(err_code.error).json({'status':err_code.error});
     }
 }
 
 //Possible httpGet calls
 //Descriptions are in my_webserver_api.txt
-dispatcher.onGet("/create", function(req, res) {
-    var id = getJSONfromURL(req);
+app.get("/create/user/:user/pass/:pass", function(req, res) {
     var err_code = {"success":201, "error":400};
-    if(createUser(id, function(response){
+    if(createUser(req.params, function(response){
         sendHTTPCodeResponse(err_code, response, res);
     }));
 });
 
-dispatcher.onGet("/login", function(req, res) {
-    var id = getJSONfromURL(req);
+app.get("/login/user/:user/pass/:pass", function(req, res) {
     var err_code = {"success":200, "error":401};
-    if(loginUser(id, function(response){
+    if(loginUser(req.params, function(response){
         sendHTTPCodeResponse(err_code, response, res);
     }));
 });
 
-dispatcher.onGet("/updateData", function(req, res) {
-    var id = getJSONfromURL(req);
+app.post("/updateData", function(req, res) {
     var err_code = {"success":200, "error":400};
-    if(updateData(id, function(response){
+    if(updateData(req.body, function(response){
         sendHTTPCodeResponse(err_code, response, res);
     }));
 });
 
-dispatcher.onGet("/getData", function(req, res) {
-    var id = getJSONfromURL(req);
+app.get("/getData/user/:user", function(req, res) {
     var err_code = {"success":200, "error":400};
-    if(findUserData(id, function(response){
+    if(findUserData(req.params, function(response){
         if(response) {
-            res.writeHead(err_code.success, {'Content-Type':'application/json'});
-            console.log(response.list);
-            var json = JSON.stringify({"list":response.list})
-            res.end(json);
+            res.status(err_code.success).json({"list":reponse.list});
         } else {
-            res.writeHead(err_code.error, {'Content-Type':'application/json'});
-            var json = JSON.stringify({'status':err_code.error});
-            res.end(json);
+            res.status(err_code.success).json({'status':err_code.error});
         }
     }));
 });
 
-//Create server
-var server = http.createServer(handleRequest);
-
 //Start server
-server.listen(PORT, function() {
+app.listen(PORT, function() {
     //Callback when server is successfully listening.
     console.log("Server listening on: http://localhost:%s", PORT);
 });
