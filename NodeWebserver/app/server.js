@@ -163,16 +163,16 @@ function sendHTTPCodeResponse(err_code,response,res) {
 
 //Possible httpGet calls
 //Descriptions are in my_webserver_api.txt
-app.get("/create/user/:user/pass/:pass", function(req, res) {
+app.post("/create", function(req, res) {
     var err_code = {"success":201, "error":400};
-    if(createUser(req.params, function(response){
+    if(createUser(req.body, function(response){
         sendHTTPCodeResponse(err_code, response, res);
     }));
 });
 
-app.get("/login/user/:user/pass/:pass", function(req, res) {
+app.post("/login", function(req, res) {
     var err_code = {"success":200, "error":401};
-    if(loginUser(req.params, function(response){
+    if(loginUser(req.body, function(response){
         sendHTTPCodeResponse(err_code, response, res);
     }));
 });
