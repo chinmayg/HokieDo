@@ -28,9 +28,14 @@ If an extension of the server i.e /create or /updateData requires a parameter, y
 ####/create
 ```
 parameter: 
-	Send an HTTP get with URL
-	http://server_ip:PORT/create/user/[username]/pass/[password]
-	Example: http://localhost:8080/create/user/test1/pass/test
+	Send an HTTP post
+	Body:
+		POST /login HTTP/1.1
+		Host: localhost:8080
+		Content-Type: application/x-www-form-urlencoded
+		Cache-Control: no-cache
+		Postman-Token: be95dc7e-4c6e-397d-c532-d6068e24afe4
+		user=user3&pass=abcdef
 ```
 ```
 response:
@@ -47,9 +52,14 @@ response:
 ####/login
 ```
 parameter:
-	Send an HTTP get with URL
-	http://server_ip:PORT/login/user/[username]/pass/[password]
-	Example: http://localhost:8080/login/user/test1/pass/test
+	Send an HTTP post
+	Body:
+		POST /login HTTP/1.1
+		Host: localhost:8080
+		Content-Type: application/x-www-form-urlencoded
+		Cache-Control: no-cache
+		Postman-Token: be95dc7e-4c6e-397d-c532-d6068e24afe4
+		user=user3&pass=abcdef
 ```
 ```
 response:
@@ -67,8 +77,14 @@ response:
 ```
 parameter:
 	Send an HTTP POST with URL
-	http://server_ip:PORT/updateData?user=[username]&list=[JSON Array as a String]
-	Example: http://localhost:8080/updateData?user/test1&list=[1,2,3]
+	Body:
+		POST /updateData HTTP/1.1
+		Host: localhost:8080
+		Content-Type: application/x-www-form-urlencoded
+		Cache-Control: no-cache
+		Postman-Token: 9f3c8811-a981-bde8-7a95-0004d5664383
+
+		user=user2&list=%5B%22a%22%2C%22b%22%2C%22c%22%5D = {"user":"user2","list":["a","b","c"]}
 ```
 ```
 reponse:
