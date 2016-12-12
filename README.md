@@ -11,7 +11,7 @@ Synced data with Java Servlet server
 // New Server implemenation
 Uses Nodejs webserver to download and upload data
 
-Syncs using httpGet
+Syncs using http post to create/login/update data and http get to retreive ata
 
 ##My Webserver API:
 If an extension of the server i.e /create or /updateData requires a parameter, you must format it similar to the examples below.
