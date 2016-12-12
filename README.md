@@ -14,14 +14,14 @@ Uses Nodejs webserver to download and upload data
 Syncs using httpGet
 
 ##My Webserver API:
-If an extension of the server i.e /create or /updateData requires a parameter, you must send a information formated as a JSON,
-and converted to  a string before you send it through the HTTP Get Request
+If an extension of the server i.e /create or /updateData requires a parameter, you must format it similar to the examples below.
 
-##How to run Jetty Webserver:
+##How to run Jetty Webserver (depercated) - This will not work with android app, no longer being developed:
 1. In order to run the webserver, import the webserver project into eclipse and press the Run button in eclipse to start the server.
 
 ##How to run NodeJs Webserver:
 1. Install latest node.js from https://nodejs.org/en/ 
+2. Install mongoDB from https://www.mongodb.com/
 2. Navigate to NodeWebserver folder in the terminal and run "node index.js"
 
 ## Create user
@@ -29,8 +29,8 @@ and converted to  a string before you send it through the HTTP Get Request
 ```
 parameter: 
 	Send an HTTP get with URL
-	http://server_ip:PORT/create?user=[username]&pass=[password]
-	Example: http://localhost:8080/create?user=test1&pass=test
+	http://server_ip:PORT/create/user/[username]/pass/[password]
+	Example: http://localhost:8080/create/user/test1/pass/test
 ```
 ```
 response:
@@ -48,8 +48,8 @@ response:
 ```
 parameter:
 	Send an HTTP get with URL
-	http://server_ip:PORT/login?user=[username]&pass=[password]
-	Example: http://localhost:8080/login?user=test1&pass=test
+	http://server_ip:PORT/login/user/[username]/pass/[password]
+	Example: http://localhost:8080/login/user/test1/pass/test
 ```
 ```
 response:
@@ -66,9 +66,9 @@ response:
 ####/updateData
 ```
 parameter:
-	Send an HTTP get with URL
+	Send an HTTP POST with URL
 	http://server_ip:PORT/updateData?user=[username]&list=[JSON Array as a String]
-	Example: http://localhost:8080/updateData?user=test1&list=[1,2,3]
+	Example: http://localhost:8080/updateData?user/test1&list=[1,2,3]
 ```
 ```
 reponse:
@@ -86,8 +86,8 @@ reponse:
 ```
 parameter:
 	Send an HTTP get with URL
-	http://server_ip:PORT/getData?user=[username]
-	Example: http://localhost:8080/getData?user=test1
+	http://server_ip:PORT/getData/user/[username]
+	Example: http://localhost:8080/getData/user/test1
 ```
 ```
 reponse:
