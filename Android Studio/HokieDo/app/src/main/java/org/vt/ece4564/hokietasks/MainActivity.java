@@ -3,16 +3,13 @@ package org.vt.ece4564.hokietasks;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.ArrayBlockingQueue;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.ProtocolVersion;
-import org.apache.http.StatusLine;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicHttpResponse;
-import org.apache.http.util.EntityUtils;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -139,62 +136,55 @@ public class MainActivity extends Activity {
         return ret;
     }
 
-	private class DownloadDataHandleAuth extends AsyncTask<String, Void, HttpResponse> {
-		protected HttpResponse doInBackground(String... cred) {
-			StatusLine error = new StatusLine() {
-				@Override
-				public ProtocolVersion getProtocolVersion() {
-					return null;
-				}
+	private class DownloadDataHandleAuth extends AsyncTask<String, Void, Integer> {
+        protected Integer doInBackground(String... cred) {
+            String charset = "UTF-8";  // Or in Java 7 and later, use the constant: java.nio.charset.StandardCharsets.UTF_8.name()
+            String user = cred[0];
+            String pass = cred[1];
+            String newURL = websiteURL_;
 
-				@Override
-				public int getStatusCode() {
-					return 404;
-				}
+            int status = 0;
 
-				@Override
-				public String getReasonPhrase() {
-					return null;
-				}
-			};
-			HttpResponse response = new BasicHttpResponse(error);
-			String newURL;
-			newURL = createURLwithoutList(websiteURL_ + cred[1], cred[0]);
+            try {
+                HttpURLConnection httpConnection = (HttpURLConnection) new URL(newURL).openConnection();
+                httpConnection.setRequestMethod("POST");
+                String query = String.format("param1=%s&param2=%s",
+                        URLEncoder.encode(user, charset),
+                        URLEncoder.encode(pass, charset));
+                httpConnection.setRequestProperty("Accept-Charset", charset);
+                httpConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=" + charset);
 
-			HttpClient httpclient = new DefaultHttpClient();
-			HttpGet httpget = new HttpGet(newURL);
-			Log.i(TAG, newURL);
+                try (OutputStream output = httpConnection.getOutputStream()) {
+                    output.write(query.getBytes(charset));
+                }
 
-			// Execute HTTP Post Request
-			try {
-				response = httpclient.execute(httpget);
-				if(response == null){
-					response.setStatusCode(404);
-					return response;
-				}
-			} catch (ClientProtocolException e) {
-				Log.e(TAG, e.getMessage());
-				e.printStackTrace();
-			} catch (IOException e) {
-				Log.e(TAG, e.getMessage());
-				e.printStackTrace();
-			}
+                status = httpConnection.getResponseCode();
 
-			return response;
+            } catch (ProtocolException e) {
+                e.printStackTrace();
+            } catch (UnsupportedEncodingException e1) {
+                e1.printStackTrace();
+            } catch (MalformedURLException e1) {
+                e1.printStackTrace();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+            return status;
 
-		}
+        }
 
 		// Run on UI Thread
-		protected void onPostExecute(HttpResponse result) {
+		protected void onPostExecute(int status_code) {
 			pd_.dismiss();
-			StatusLine code = result.getStatusLine();
-			int status_code = code.getStatusCode();
 
 			if (status_code == 200) {
+
 				Log.i(TAG, "Data Downloaded");
+                /*
 				taskTable.removeAllViews();
 				Log.i(TAG, rows.size() + "");
 				try {
+
 					jsonString_ = EntityUtils.toString(result.getEntity());
 					Log.i(TAG, result.getStatusLine().toString());
 					Log.i(TAG, jsonString_);
@@ -227,6 +217,7 @@ public class MainActivity extends Activity {
 					Log.e(TAG, e.getMessage());
 					e.printStackTrace();
 				}
+				*/
 			} else if (status_code == 400) {
 				AlertDialog.Builder builder = new AlertDialog.Builder(
 						MainActivity.this);
@@ -267,59 +258,46 @@ public class MainActivity extends Activity {
 		}
 	}
 
-	private class UploadDataHandleAuth extends AsyncTask<String, Void, HttpResponse> {
-		protected HttpResponse doInBackground(String... cred) {
-			StatusLine error = new StatusLine() {
-				@Override
-				public ProtocolVersion getProtocolVersion() {
-					return null;
-				}
+	private class UploadDataHandleAuth extends AsyncTask<String, Void, Integer> {
+        protected Integer doInBackground(String... cred) {
+            String charset = "UTF-8";  // Or in Java 7 and later, use the constant: java.nio.charset.StandardCharsets.UTF_8.name()
+            String user = cred[0];
+            String pass = cred[1];
+            String newURL = websiteURL_;
 
-				@Override
-				public int getStatusCode() {
-					return 404;
-				}
+            int status = 0;
 
-				@Override
-				public String getReasonPhrase() {
-					return null;
-				}
-			};
-			HttpResponse response = new BasicHttpResponse(error);
-            String newURL;
-			String list = convertArrayListToString();
-			newURL = createURLwithList(websiteURL_ + cred[1], cred[0], list);
+            try {
+                HttpURLConnection httpConnection = (HttpURLConnection) new URL(newURL).openConnection();
+                httpConnection.setRequestMethod("POST");
+                String query = String.format("param1=%s&param2=%s",
+                        URLEncoder.encode(user, charset),
+                        URLEncoder.encode(pass, charset));
+                httpConnection.setRequestProperty("Accept-Charset", charset);
+                httpConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=" + charset);
 
-			HttpClient httpclient = new DefaultHttpClient();
-			HttpGet httpget = new HttpGet(newURL);
-			Log.i(TAG, newURL);
-			Log.i(TAG, "Before Network Task");
+                try (OutputStream output = httpConnection.getOutputStream()) {
+                    output.write(query.getBytes(charset));
+                }
 
-			// Execute HTTP Post Request
-			try {
-				response = httpclient.execute(httpget);
-				if(response == null){
-					return response;
-				}
+                status = httpConnection.getResponseCode();
 
+            } catch (ProtocolException e) {
+                e.printStackTrace();
+            } catch (UnsupportedEncodingException e1) {
+                e1.printStackTrace();
+            } catch (MalformedURLException e1) {
+                e1.printStackTrace();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+            return status;
 
-			} catch (ClientProtocolException e) {
-				Log.e(TAG, e.getMessage());
-				e.printStackTrace();
-			} catch (IOException e) {
-				Log.e(TAG, e.getMessage());
-				e.printStackTrace();
-			}
-
-			return response;
-
-		}
+        }
 
 		// Run on UI Thread
-		protected void onPostExecute(HttpResponse result) {
+		protected void onPostExecute(int status_code) {
 			pd_.dismiss();
-			StatusLine code = result.getStatusLine();
-			int status_code = code.getStatusCode();
 
 			if (status_code == 200) {
 				Log.i(TAG, "Data Updated");
@@ -379,7 +357,7 @@ public class MainActivity extends Activity {
 	}
 
 	private void updateUI() {
-		myPrefs = this.getSharedPreferences("myPrefs", MODE_WORLD_READABLE);
+		myPrefs = this.getSharedPreferences("myPrefs", MODE_PRIVATE);
 		websiteURL_ = myPrefs.getString("SOCKET", "nothing");
 		pd_ = ProgressDialog.show(MainActivity.this, null, "Downloading...");
 		pd_.setCancelable(true);
@@ -389,7 +367,7 @@ public class MainActivity extends Activity {
 	}
 
 	private void saveData() {
-		myPrefs = this.getSharedPreferences("myPrefs", MODE_WORLD_READABLE);
+		myPrefs = this.getSharedPreferences("myPrefs", MODE_PRIVATE);
 		websiteURL_ = myPrefs.getString("SOCKET", "nothing");
 		pd_ = ProgressDialog.show(MainActivity.this, null,
 				"Saving to Server...");
