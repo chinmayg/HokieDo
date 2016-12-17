@@ -1,7 +1,9 @@
 package org.vt.ece4564.hokietasks;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Scanner;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
@@ -10,10 +12,10 @@ import java.net.ProtocolException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONArray;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -25,6 +27,7 @@ import android.content.SharedPreferences;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.nfc.Tag;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Vibrator;
@@ -98,7 +101,7 @@ public class MainActivity extends Activity {
 
             @Override
             public void onClick(View v) {
-                myPrefs = MainActivity.this.getSharedPreferences("myPrefs", MODE_WORLD_READABLE);
+                myPrefs = MainActivity.this.getSharedPreferences("myPrefs", MODE_PRIVATE);
                 username_ = myPrefs.getString("USER", "nothing");
 				saveData();
             }
@@ -108,7 +111,7 @@ public class MainActivity extends Activity {
 
             @Override
             public void onClick(View v) {
-                myPrefs = MainActivity.this.getSharedPreferences("myPrefs", MODE_WORLD_READABLE);
+                myPrefs = MainActivity.this.getSharedPreferences("myPrefs", MODE_PRIVATE);
                 username_ = myPrefs.getString("USER", "nothing");
 				updateUI();
             }
@@ -136,89 +139,82 @@ public class MainActivity extends Activity {
         return ret;
     }
 
-	private class DownloadDataHandleAuth extends AsyncTask<String, Void, Integer> {
-        protected Integer doInBackground(String... cred) {
-            String charset = "UTF-8";  // Or in Java 7 and later, use the constant: java.nio.charset.StandardCharsets.UTF_8.name()
+	private class DownloadDataHandleAuth extends AsyncTask<String, Void, String> {
+        protected String doInBackground(String... cred) {
             String user = cred[0];
-            String pass = cred[1];
-            String newURL = websiteURL_;
+            String type = cred[1];
+            String charset = "UTF-8";  // Or in Java 7 and later, use the constant: java.nio.charset.StandardCharsets.UTF_8.name()
+            String newURL = websiteURL_ + "/" + type + "/" + "user" + "/" + user;
+            String responseBody = null;
 
-            int status = 0;
+            Log.i(TAG, newURL);
 
             try {
                 HttpURLConnection httpConnection = (HttpURLConnection) new URL(newURL).openConnection();
-                httpConnection.setRequestMethod("POST");
-                String query = String.format("param1=%s&param2=%s",
-                        URLEncoder.encode(user, charset),
-                        URLEncoder.encode(pass, charset));
+                httpConnection.setRequestMethod("GET");
+
                 httpConnection.setRequestProperty("Accept-Charset", charset);
-                httpConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=" + charset);
+                int status = httpConnection.getResponseCode();
 
-                try (OutputStream output = httpConnection.getOutputStream()) {
-                    output.write(query.getBytes(charset));
+                if(status == HttpURLConnection.HTTP_OK) {
+                    InputStream response = httpConnection.getInputStream();
+
+                    try (Scanner scanner = new Scanner(response)) {
+                        responseBody = scanner.useDelimiter("\\A").next();
+                        Log.i(TAG, responseBody);
+                    }
+
+
+                } else {
+                    Integer stat = new Integer(status);
+                    responseBody = stat.toString();
                 }
-
-                status = httpConnection.getResponseCode();
 
             } catch (ProtocolException e) {
                 e.printStackTrace();
-            } catch (UnsupportedEncodingException e1) {
-                e1.printStackTrace();
-            } catch (MalformedURLException e1) {
-                e1.printStackTrace();
-            } catch (IOException e1) {
-                e1.printStackTrace();
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            return status;
+
+            return responseBody;
 
         }
 
 		// Run on UI Thread
-		protected void onPostExecute(int status_code) {
+		protected void onPostExecute(String response) {
 			pd_.dismiss();
 
-			if (status_code == 200) {
-
+			if (response.contains("{")) {
 				Log.i(TAG, "Data Downloaded");
-                /*
-				taskTable.removeAllViews();
-				Log.i(TAG, rows.size() + "");
-				try {
+                try {
+                    JSONObject object = new JSONObject(response);
+                    JSONArray array = object.getJSONArray("list");
 
-					jsonString_ = EntityUtils.toString(result.getEntity());
-					Log.i(TAG, result.getStatusLine().toString());
-					Log.i(TAG, jsonString_);
+                    for (int i = 0; i < array.length(); i++) {
+                        Log.i(TAG, array.getString(i));
+                        rows.add(array.getString(i));
+                    }
+                    taskTable.removeAllViews();
 
-					JSONParser parser = new JSONParser();
-					Object obj = parser.parse(jsonString_);
-					JSONObject jsonObject = (JSONObject) obj;
-					msg = (JSONArray) jsonObject.get("list");
-					rows.clear();
-					if (msg != null) {
-						for (int i = 0; i < msg.size(); i++) {
-							rows.add(msg.get(i).toString());
-						}
-						Log.i(TAG, msg.size() + "");
-					}
+                    for(int i = 0; i < rows.size(); i++){
+                        Log.i(TAG,rows.get(i).toString());
+                        TableRow row = new TableRow(MainActivity.this);
+                        CheckBox box = new CheckBox(MainActivity.this);
+                        EditText rowText = new EditText(MainActivity.this);
+                        rowText.setText(rows.get(i).toString());
+                        row.addView(box);
+                        row.addView(rowText);
+                        taskTable.addView(row);
+                    }
 
-					for (int i = 0; i < rows.size(); i++) {
-						TableRow row = new TableRow(MainActivity.this);
-						CheckBox box = new CheckBox(MainActivity.this);
-						EditText rowText = new EditText(MainActivity.this);
-						rowText.setText(rows.get(i).toString());
-						row.addView(box);
-						row.addView(rowText);
-						taskTable.addView(row);
-					}
-				} catch (IOException e) {
-					Log.e(TAG, e.getMessage());
-					e.printStackTrace();
-				} catch (ParseException e){
-					Log.e(TAG, e.getMessage());
-					e.printStackTrace();
-				}
-				*/
-			} else if (status_code == 400) {
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+			} else if (response.contains("400")) {
 				AlertDialog.Builder builder = new AlertDialog.Builder(
 						MainActivity.this);
 				// Add the buttons
@@ -233,7 +229,7 @@ public class MainActivity extends Activity {
 				AlertDialog dialog = builder.create();
 				dialog.show();
 			}
-			else if (status_code == 404){
+			else if (response.contains("404")){
 				AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
 				// Add the buttons
 				builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -248,31 +244,25 @@ public class MainActivity extends Activity {
 			}
 
 		}
-
-		protected String createURLwithoutList(String url, String user) {
-			if(!url.endsWith("?"))
-				url += "?";
-
-			url += "user="+user;
-			return url;
-		}
 	}
 
-	private class UploadDataHandleAuth extends AsyncTask<String, Void, Integer> {
-        protected Integer doInBackground(String... cred) {
-            String charset = "UTF-8";  // Or in Java 7 and later, use the constant: java.nio.charset.StandardCharsets.UTF_8.name()
+	private class UploadDataHandleAuth extends AsyncTask<String, Void, Long> {
+        protected Long doInBackground(String... cred) {
+            String charset = "UTF-8";
             String user = cred[0];
-            String pass = cred[1];
-            String newURL = websiteURL_;
+            String type = cred[1];
+            String list = cred[2];
+            String newURL = websiteURL_ + "/" + type;
+            Log.i(TAG, newURL);
+            long status = 0;
 
-            int status = 0;
+                Log.i(TAG, list);
 
             try {
                 HttpURLConnection httpConnection = (HttpURLConnection) new URL(newURL).openConnection();
                 httpConnection.setRequestMethod("POST");
-                String query = String.format("param1=%s&param2=%s",
-                        URLEncoder.encode(user, charset),
-                        URLEncoder.encode(pass, charset));
+                String query = String.format("user=%s&list=%s",
+                                             user, list);
                 httpConnection.setRequestProperty("Accept-Charset", charset);
                 httpConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=" + charset);
 
@@ -284,19 +274,20 @@ public class MainActivity extends Activity {
 
             } catch (ProtocolException e) {
                 e.printStackTrace();
-            } catch (UnsupportedEncodingException e1) {
-                e1.printStackTrace();
-            } catch (MalformedURLException e1) {
-                e1.printStackTrace();
-            } catch (IOException e1) {
-                e1.printStackTrace();
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
+
             return status;
 
         }
 
 		// Run on UI Thread
-		protected void onPostExecute(int status_code) {
+		protected void onPostExecute(Long status_code) {
 			pd_.dismiss();
 
 			if (status_code == 200) {
@@ -331,30 +322,14 @@ public class MainActivity extends Activity {
 			}
 
 		}
-
-		protected String createURLwithList(String url, String user, String list) {
-			if(!url.endsWith("?"))
-				url += "?";
-
-			url += "user="+user+"&list=["+list + "]";
-			return url;
-		}
-
-        protected String convertArrayListToString() {
-			String list = "";
-			if (rows.size() == 0) {
-				return list;
-			} else if (rows.size() == 1) {
-				list += rows.get(0);
-			} else {
-				for (int i = 0; i < rows.size(); i++) {
-					list += rows.get(i) + ",";
-				}
-				list += rows.get(rows.size());
-			}
-            return list;
-        }
 	}
+    private JSONArray convertArrayListToString() {
+        JSONArray list = new JSONArray();
+        for (int i = 0; i < rows.size(); i++) {
+            list.put(rows.get(i));
+        }
+        return list;
+    }
 
 	private void updateUI() {
 		myPrefs = this.getSharedPreferences("myPrefs", MODE_PRIVATE);
@@ -372,8 +347,9 @@ public class MainActivity extends Activity {
 		pd_ = ProgressDialog.show(MainActivity.this, null,
 				"Saving to Server...");
 		pd_.setCancelable(true);
+        JSONArray array = convertArrayListToString();
 		if(isWebserverSet()) {
-			new UploadDataHandleAuth().execute(username_, "updateData");
+			new UploadDataHandleAuth().execute(username_, "updateData", array.toString());
 		}
 	}
 

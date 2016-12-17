@@ -91,9 +91,14 @@ function updateData(id, callback) {
 
             // Query for user
             var user = {_id:id.user}; 
-
+            console.log(id.list);
+            var list = [];
+            list = JSON.parse(id.list);
+            for(var i = 0; i < list.length; i++) {
+                console.log(list[i]);
+            }
             // Update user data
-            collection.update(user, {$set: {"list":id.list}}, function (err, result) {
+            collection.update(user, {$set: {"list":list}}, function (err, result) {
                 console.log("updating data");
                 if(err)
                     return callback(false);
@@ -188,7 +193,7 @@ app.get("/getData/user/:user", function(req, res) {
     var err_code = {"success":200, "error":400};
     if(findUserData(req.params, function(response){
         if(response) {
-            res.status(err_code.success).json({"list":reponse.list});
+            res.status(err_code.success).json({"list":response.list});
         } else {
             res.status(err_code.success).json({'status':err_code.error});
         }

@@ -117,9 +117,12 @@ public class LoginActivity extends Activity {
             String charset = "UTF-8";  // Or in Java 7 and later, use the constant: java.nio.charset.StandardCharsets.UTF_8.name()
             String user = cred[0];
             String pass = cred[1];
-			String newURL = websiteURL_;
+            String type = cred[2];
+			String newURL = websiteURL_+"/"+ type;
             int timeout = 7000;
             long status = 0;
+
+            Log.i(TAG, websiteURL_);
 
             try {
                 HttpURLConnection httpConnection = (HttpURLConnection) new URL(newURL).openConnection();
@@ -130,7 +133,6 @@ public class LoginActivity extends Activity {
                 String query = String.format("user=%s&pass=%s",
                         URLEncoder.encode(user, charset),
                         URLEncoder.encode(pass, charset));
-                Log.i(TAG, "Query " + query);
                 httpConnection.setRequestProperty("Accept-Charset", charset);
                 httpConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=" + charset);
 
@@ -213,11 +215,6 @@ public class LoginActivity extends Activity {
 				AlertDialog dialog = builder.create();
 				dialog.show();
 			}
-		}
-
-		protected String addLocationToUrl(String url, String user, String pwd) {
-			url += "user=" + user + "&pass=" + pwd + "";
-			return url;
 		}
 	}
 
