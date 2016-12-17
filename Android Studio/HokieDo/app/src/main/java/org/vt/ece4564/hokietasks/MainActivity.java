@@ -11,7 +11,6 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,7 +26,6 @@ import android.content.SharedPreferences;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.nfc.Tag;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Vibrator;
@@ -41,85 +39,98 @@ import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.appindexing.Thing;
+import com.google.android.gms.common.api.GoogleApiClient;
+
 public class MainActivity extends Activity {
 
-	ArrayList<String> rows = new ArrayList<String>();
-	TableLayout taskTable;
-	EditText taskText;
-	SharedPreferences myPrefs;
-	String TAG = "TASKS";
-	ArrayBlockingQueue<String> q;
-	static final int MAX_QUEUE_SIZE = 10;
-	ProgressDialog pd_;
-	String username_ = null;
-	String websiteURL_ = "NULL";
-	String jsonString_ = null;
-	JSONArray msg;
-	AlertDialog randomTask;
+    ArrayList<String> rows = new ArrayList<String>();
+    TableLayout taskTable;
+    EditText taskText;
+    SharedPreferences myPrefs;
+    String TAG = "TASKS";
+    ArrayBlockingQueue<String> q;
+    static final int MAX_QUEUE_SIZE = 10;
+    ProgressDialog pd_;
+    String username_ = null;
+    String websiteURL_ = "NULL";
+    String jsonString_ = null;
+    JSONArray msg;
+    AlertDialog randomTask;
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
-		q = new ArrayBlockingQueue<String>(MAX_QUEUE_SIZE);
-		Intent i = new Intent(MainActivity.this, LoginActivity.class);
-		startActivity(i);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        q = new ArrayBlockingQueue<String>(MAX_QUEUE_SIZE);
+        Intent i = new Intent(MainActivity.this, LoginActivity.class);
+        startActivity(i);
 
-		taskText = (EditText) findViewById(R.id.taskText);
-		Button submitButton = (Button) findViewById(R.id.submitTaskButton);
-		Button saveButton = (Button) findViewById(R.id.saveToServerButton);
-		Button downloadButton = (Button) findViewById(R.id.Button02);
+        taskText = (EditText) findViewById(R.id.taskText);
+        Button submitButton = (Button) findViewById(R.id.submitTaskButton);
+        Button saveButton = (Button) findViewById(R.id.saveToServerButton);
+        Button downloadButton = (Button) findViewById(R.id.Button02);
 
-		taskTable = (TableLayout) findViewById(R.id.taskTable);
+        taskTable = (TableLayout) findViewById(R.id.taskTable);
 
-		submitButton.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View arg0) {
-				// Plays Default Notification Sound to Confirm add to List
-				Uri notification = RingtoneManager
-						.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-				Ringtone r = RingtoneManager.getRingtone(
-						getApplicationContext(), notification);
-				r.play();
+        submitButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View arg0) {
+                // Plays Default Notification Sound to Confirm add to List
+                Uri notification = RingtoneManager
+                        .getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+                Ringtone r = RingtoneManager.getRingtone(
+                        getApplicationContext(), notification);
+                r.play();
 
-				// Vibrates Device to Confirm add to list
-				Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-				// Vibrate for 500 milliseconds
-				v.vibrate(500);
+                // Vibrates Device to Confirm add to list
+                Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                // Vibrate for 500 milliseconds
+                v.vibrate(500);
 
-				// Add task to ui
-				TableRow row = new TableRow(MainActivity.this);
-				CheckBox box = new CheckBox(MainActivity.this);
-				EditText rowText = new EditText(MainActivity.this);
-				rowText.setText(taskText.getText().toString());
-				rows.add(taskText.getText().toString());
-				row.addView(box);
-				row.addView(rowText);
-				taskTable.addView(row);
-			}
-		});
-		saveButton.setOnClickListener(new View.OnClickListener() {
+                // Add task to ui
+                TableRow row = new TableRow(MainActivity.this);
+                CheckBox box = new CheckBox(MainActivity.this);
+                EditText rowText = new EditText(MainActivity.this);
+                rowText.setText(taskText.getText().toString());
+                rows.add(taskText.getText().toString());
+                row.addView(box);
+                row.addView(rowText);
+                taskTable.addView(row);
+            }
+        });
+        saveButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 myPrefs = MainActivity.this.getSharedPreferences("myPrefs", MODE_PRIVATE);
                 username_ = myPrefs.getString("USER", "nothing");
-				saveData();
+                saveData();
             }
 
         });
-		downloadButton.setOnClickListener(new View.OnClickListener() {
+        downloadButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 myPrefs = MainActivity.this.getSharedPreferences("myPrefs", MODE_PRIVATE);
                 username_ = myPrefs.getString("USER", "nothing");
-				updateUI();
+                updateUI();
             }
 
         });
-	}
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+    }
 
-    private boolean isWebserverSet(){
+    private boolean isWebserverSet() {
         boolean ret = true;
         if (websiteURL_.contains("NULL") || !websiteURL_.matches(".*\\d+.*")) {
             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
@@ -139,7 +150,43 @@ public class MainActivity extends Activity {
         return ret;
     }
 
-	private class DownloadDataHandleAuth extends AsyncTask<String, Void, String> {
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    public Action getIndexApiAction() {
+        Thing object = new Thing.Builder()
+                .setName("Main Page") // TODO: Define a title for the content shown.
+                // TODO: Make sure this auto-generated URL is correct.
+                .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
+                .build();
+        return new Action.Builder(Action.TYPE_VIEW)
+                .setObject(object)
+                .setActionStatus(Action.STATUS_TYPE_COMPLETED)
+                .build();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.connect();
+        AppIndex.AppIndexApi.start(client, getIndexApiAction());
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        AppIndex.AppIndexApi.end(client, getIndexApiAction());
+        client.disconnect();
+    }
+
+    private class DownloadDataHandleAuth extends AsyncTask<String, Void, String> {
         protected String doInBackground(String... cred) {
             String user = cred[0];
             String type = cred[1];
@@ -156,7 +203,7 @@ public class MainActivity extends Activity {
                 httpConnection.setRequestProperty("Accept-Charset", charset);
                 int status = httpConnection.getResponseCode();
 
-                if(status == HttpURLConnection.HTTP_OK) {
+                if (status == HttpURLConnection.HTTP_OK) {
                     InputStream response = httpConnection.getInputStream();
 
                     try (Scanner scanner = new Scanner(response)) {
@@ -184,12 +231,12 @@ public class MainActivity extends Activity {
 
         }
 
-		// Run on UI Thread
-		protected void onPostExecute(String response) {
-			pd_.dismiss();
+        // Run on UI Thread
+        protected void onPostExecute(String response) {
+            pd_.dismiss();
 
-			if (response.contains("{")) {
-				Log.i(TAG, "Data Downloaded");
+            if (response.contains("{")) {
+                Log.i(TAG, "Data Downloaded");
                 try {
                     JSONObject object = new JSONObject(response);
                     JSONArray array = object.getJSONArray("list");
@@ -200,8 +247,8 @@ public class MainActivity extends Activity {
                     }
                     taskTable.removeAllViews();
 
-                    for(int i = 0; i < rows.size(); i++){
-                        Log.i(TAG,rows.get(i).toString());
+                    for (int i = 0; i < rows.size(); i++) {
+                        Log.i(TAG, rows.get(i).toString());
                         TableRow row = new TableRow(MainActivity.this);
                         CheckBox box = new CheckBox(MainActivity.this);
                         EditText rowText = new EditText(MainActivity.this);
@@ -214,39 +261,37 @@ public class MainActivity extends Activity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-			} else if (response.contains("400")) {
-				AlertDialog.Builder builder = new AlertDialog.Builder(
-						MainActivity.this);
-				// Add the buttons
-				builder.setPositiveButton("OK",
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int id) {
-								// User clicked OK button
-							}
-						});
-				builder.setMessage("No previous data found!");
-				// Create the AlertDialog
-				AlertDialog dialog = builder.create();
-				dialog.show();
-			}
-			else if (response.contains("404")){
-				AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-				// Add the buttons
-				builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int id) {
-						// User clicked OK button
-					}
-				});
-				builder.setMessage("Unable to connect to server.");
-				// Create the AlertDialog
-				AlertDialog dialog = builder.create();
-				dialog.show();
-			}
+            } else if (response.contains("400")) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(
+                        MainActivity.this);
+                // Add the buttons
+                builder.setPositiveButton("OK",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // User clicked OK button
+                            }
+                        });
+                builder.setMessage("No previous data found!");
+                // Create the AlertDialog
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            } else if (response.contains("404")) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                // Add the buttons
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User clicked OK button
+                    }
+                });
+                builder.setMessage("Unable to connect to server.");
+                // Create the AlertDialog
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        }
+    }
 
-		}
-	}
-
-	private class UploadDataHandleAuth extends AsyncTask<String, Void, Long> {
+    private class UploadDataHandleAuth extends AsyncTask<String, Void, Long> {
         protected Long doInBackground(String... cred) {
             String charset = "UTF-8";
             String user = cred[0];
@@ -256,13 +301,13 @@ public class MainActivity extends Activity {
             Log.i(TAG, newURL);
             long status = 0;
 
-                Log.i(TAG, list);
+            Log.i(TAG, list);
 
             try {
                 HttpURLConnection httpConnection = (HttpURLConnection) new URL(newURL).openConnection();
                 httpConnection.setRequestMethod("POST");
                 String query = String.format("user=%s&list=%s",
-                                             user, list);
+                        user, list);
                 httpConnection.setRequestProperty("Accept-Charset", charset);
                 httpConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=" + charset);
 
@@ -276,8 +321,6 @@ public class MainActivity extends Activity {
                 e.printStackTrace();
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -286,43 +329,43 @@ public class MainActivity extends Activity {
 
         }
 
-		// Run on UI Thread
-		protected void onPostExecute(Long status_code) {
-			pd_.dismiss();
+        // Run on UI Thread
+        protected void onPostExecute(Long status_code) {
+            pd_.dismiss();
 
-			if (status_code == 200) {
-				Log.i(TAG, "Data Updated");
-			} else if (status_code == 400) {
-				AlertDialog.Builder builder = new AlertDialog.Builder(
-						MainActivity.this);
-				// Add the buttons
-				builder.setPositiveButton("OK",
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int id) {
-								// User clicked OK button
-							}
-						});
-				builder.setMessage("User was not Found!");
-				// Create the AlertDialog
-				AlertDialog dialog = builder.create();
-				dialog.show();
-			}
-			else if (status_code == 404){
-				AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-				// Add the buttons
-				builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-				           public void onClick(DialogInterface dialog, int id) {
-				               // User clicked OK button
-				           }
-				       });
-				builder.setMessage("Unable to connect to server.");
-				// Create the AlertDialog
-				AlertDialog dialog = builder.create();
-				dialog.show();
-			}
+            if (status_code == 200) {
+                Log.i(TAG, "Data Updated");
+            } else if (status_code == 400) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(
+                        MainActivity.this);
+                // Add the buttons
+                builder.setPositiveButton("OK",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // User clicked OK button
+                            }
+                        });
+                builder.setMessage("User was not Found!");
+                // Create the AlertDialog
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            } else if (status_code == 404) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                // Add the buttons
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User clicked OK button
+                    }
+                });
+                builder.setMessage("Unable to connect to server.");
+                // Create the AlertDialog
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
 
-		}
-	}
+        }
+    }
+
     private JSONArray convertArrayListToString() {
         JSONArray list = new JSONArray();
         for (int i = 0; i < rows.size(); i++) {
@@ -331,58 +374,58 @@ public class MainActivity extends Activity {
         return list;
     }
 
-	private void updateUI() {
-		myPrefs = this.getSharedPreferences("myPrefs", MODE_PRIVATE);
-		websiteURL_ = myPrefs.getString("SOCKET", "nothing");
-		pd_ = ProgressDialog.show(MainActivity.this, null, "Downloading...");
-		pd_.setCancelable(true);
-		if(isWebserverSet()){
-			new DownloadDataHandleAuth().execute(username_, "getData");
-		}
-	}
+    private void updateUI() {
+        myPrefs = this.getSharedPreferences("myPrefs", MODE_PRIVATE);
+        websiteURL_ = myPrefs.getString("SOCKET", "nothing");
+        pd_ = ProgressDialog.show(MainActivity.this, null, "Downloading...");
+        pd_.setCancelable(true);
+        if (isWebserverSet()) {
+            new DownloadDataHandleAuth().execute(username_, "getData");
+        }
+    }
 
-	private void saveData() {
-		myPrefs = this.getSharedPreferences("myPrefs", MODE_PRIVATE);
-		websiteURL_ = myPrefs.getString("SOCKET", "nothing");
-		pd_ = ProgressDialog.show(MainActivity.this, null,
-				"Saving to Server...");
-		pd_.setCancelable(true);
+    private void saveData() {
+        myPrefs = this.getSharedPreferences("myPrefs", MODE_PRIVATE);
+        websiteURL_ = myPrefs.getString("SOCKET", "nothing");
+        pd_ = ProgressDialog.show(MainActivity.this, null,
+                "Saving to Server...");
+        pd_.setCancelable(true);
         JSONArray array = convertArrayListToString();
-		if(isWebserverSet()) {
-			new UploadDataHandleAuth().execute(username_, "updateData", array.toString());
-		}
-	}
+        if (isWebserverSet()) {
+            new UploadDataHandleAuth().execute(username_, "updateData", array.toString());
+        }
+    }
 
-	@Override
-	public void onResume() {
-		super.onResume();
-	}
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
 
-	@Override
-	protected void onPause() {
-		super.onPause();
-	}
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
-	}
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case R.id.action_settings:
-			Intent i = new Intent(MainActivity.this, PrefActivity.class);
-			startActivity(i);
-			break;
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                Intent i = new Intent(MainActivity.this, PrefActivity.class);
+                startActivity(i);
+                break;
 
-		default:
-			break;
-		}
+            default:
+                break;
+        }
 
-		return true;
-	}
+        return true;
+    }
 
 }

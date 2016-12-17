@@ -12,10 +12,10 @@ import android.widget.EditText;
 
 public class PrefActivity extends Activity {
 
-    String ip_,port_,websiteURL_;
-	String TAG = "TASKS";
-	SharedPreferences myPrefs;
-	ProgressDialog pd_;
+    String ip_, port_, websiteURL_;
+    String TAG = "TASKS";
+    SharedPreferences myPrefs;
+    ProgressDialog pd_;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,47 +26,47 @@ public class PrefActivity extends Activity {
         setTextBox();
 
         Button saveButton = (Button) findViewById(R.id.setButton);
-		saveButton.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View arg0) {
-				changePort();
-			}
-		});
-		
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View arg0) {
+                changePort();
+            }
+        });
+
         Button cancelButton = (Button) findViewById(R.id.cancelButton);
-		cancelButton.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View arg0) {
-				finish();
-			}
-		});
-		
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View arg0) {
+                finish();
+            }
+        });
+
     }
-    
-    private void changePort(){
-		EditText ipText = (EditText) findViewById(R.id.ipText);
-		EditText pText = (EditText) findViewById(R.id.portText);
-		ip_ = ipText.getText().toString();
-		port_ = pText.getText().toString();
-		
-		myPrefs = this.getSharedPreferences("myPrefs", MODE_PRIVATE);
+
+    private void changePort() {
+        EditText ipText = (EditText) findViewById(R.id.ipText);
+        EditText pText = (EditText) findViewById(R.id.portText);
+        ip_ = ipText.getText().toString();
+        port_ = pText.getText().toString();
+
+        myPrefs = this.getSharedPreferences("myPrefs", MODE_PRIVATE);
         SharedPreferences.Editor prefsEditor = myPrefs.edit();
         prefsEditor.clear();
-		if(ip_.length() == 0 || port_.length() == 0){
+        if (ip_.length() == 0 || port_.length() == 0) {
             ip_ = "NULL";
             port_ = "NULL";
         }
-        prefsEditor.putString("SOCKET", "http://"+ip_+":"+port_);
+        prefsEditor.putString("SOCKET", "http://" + ip_ + ":" + port_);
         prefsEditor.putString("IP", ip_);
         prefsEditor.putString("PORT", port_);
 
         prefsEditor.commit();
-        
-        websiteURL_ = "http://"+ip_+":"+port_;
-	    Intent i = new Intent(PrefActivity.this, LoginActivity.class);
-	    startActivity(i);
-	    finish();
+
+        websiteURL_ = "http://" + ip_ + ":" + port_;
+        Intent i = new Intent(PrefActivity.this, LoginActivity.class);
+        startActivity(i);
+        finish();
     }
 
-    private void setTextBox(){
+    private void setTextBox() {
         EditText ipText = (EditText) findViewById(R.id.ipText);
         EditText pText = (EditText) findViewById(R.id.portText);
 
