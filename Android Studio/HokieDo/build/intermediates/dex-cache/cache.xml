@@ -61,7 +61,7 @@
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
-        sha1="295dce9437c1cd0d1caafdb070cee95067fca9b6">
+        sha1="5a7fdf9d408dbfd00d2730adbbca0bd602375124">
         <dex dex="/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_079dedefea650fb364b5a993cb571a22a2005ca0/classes.dex" />
     </item>
     <item
@@ -187,7 +187,7 @@
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
-        sha1="f70f70b717cd255f005ca994c8386e85e9acddd4">
+        sha1="338a907119cd6f4c4f175c1f5b87913e05eba4e2">
         <dex dex="/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_197a8628c5068d5ca3599a92ccbef7ed074b4eaa/classes.dex" />
     </item>
     <item

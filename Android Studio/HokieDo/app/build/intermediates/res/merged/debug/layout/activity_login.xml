@@ -61,34 +61,44 @@
                 android:maxLines="1"
                 android:singleLine="true" />
 
-            <Button
-                android:id="@+id/sign_in_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="16dp"
-                android:paddingLeft="32dp"
-                android:paddingRight="32dp"
-                android:text="Sign In" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-            <Button
-                android:id="@+id/register"
-                android:layout_width="140dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="16dp"
-                android:layout_weight="0.14"
-                android:gravity="center_vertical|center_horizontal"
-                android:paddingLeft="32dp"
-                android:paddingRight="32dp"
-                android:text="Register User" />
+                <Button
+                    android:id="@+id/register"
+                    android:layout_width="140dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="0.14"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="Register User"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentEnd="true"/>
 
-            <Button
-                android:id="@+id/prefButton"
-                style="?android:attr/buttonStyleSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Set" />
+                <Button
+                    android:id="@+id/sign_in_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="Sign In"
+                    android:layout_alignParentBottom="true"
+                    android:layout_toStartOf="@+id/register"
+                    android:layout_marginEnd="11dp"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <Button
+                    android:id="@+id/prefButton"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Set" />
+            </RelativeLayout>
 
         </LinearLayout>
 

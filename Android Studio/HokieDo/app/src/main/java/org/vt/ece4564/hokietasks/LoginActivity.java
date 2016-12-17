@@ -36,6 +36,9 @@ public class LoginActivity extends Activity {
     String TAG = "TASKS";
     String websiteURL_ = "Not Set";
     SharedPreferences myPrefs;
+    Boolean isUrlSet = false;
+    static final int SETTINGS_REQUEST = 1;  // The request code
+
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -67,6 +70,7 @@ public class LoginActivity extends Activity {
         prefBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
                 Intent i = new Intent(LoginActivity.this, PrefActivity.class);
+                i.putExtra("calling-activity", ActivityId.LOGIN_ACTIVITY);
                 startActivity(i);
             }
         });
@@ -122,7 +126,7 @@ public class LoginActivity extends Activity {
             int timeout = 7000;
             long status = 0;
 
-            Log.i(TAG, websiteURL_);
+            Log.i(TAG, newURL);
 
             try {
                 HttpURLConnection httpConnection = (HttpURLConnection) new URL(newURL).openConnection();
@@ -174,7 +178,8 @@ public class LoginActivity extends Activity {
                 prefsEditor.remove("USER");
                 prefsEditor.putString("USER", username_.toString());
                 prefsEditor.commit();
-                finish();
+                Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                startActivity(i);
             } else if (status == 201) {
                 Log.i(TAG, "User Created");
             } else if (status == 401) {
@@ -282,6 +287,18 @@ public class LoginActivity extends Activity {
                 requestAuthentication(username_, password_);
             } else {
                 createUser(username_, password_);
+            }
+        }
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Check which request we're responding to
+        if (requestCode == SETTINGS_REQUEST) {
+            // Make sure the request was successful
+            if (resultCode == RESULT_OK) {
+                if(data.getBooleanExtra("urlset",false) == true) {
+                    isUrlSet = true;
+                }
             }
         }
     }

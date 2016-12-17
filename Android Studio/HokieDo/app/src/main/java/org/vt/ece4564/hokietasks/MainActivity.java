@@ -47,6 +47,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 public class MainActivity extends Activity {
 
     ArrayList<String> rows = new ArrayList<String>();
+    static final int SETTINGS_REQUEST = 1;  // The request code
     TableLayout taskTable;
     EditText taskText;
     SharedPreferences myPrefs;
@@ -56,9 +57,8 @@ public class MainActivity extends Activity {
     ProgressDialog pd_;
     String username_ = null;
     String websiteURL_ = "NULL";
-    String jsonString_ = null;
-    JSONArray msg;
-    AlertDialog randomTask;
+    Boolean isUrlSet = false;
+
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -70,8 +70,6 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         q = new ArrayBlockingQueue<String>(MAX_QUEUE_SIZE);
-        Intent i = new Intent(MainActivity.this, LoginActivity.class);
-        startActivity(i);
 
         taskText = (EditText) findViewById(R.id.taskText);
         Button submitButton = (Button) findViewById(R.id.submitTaskButton);
@@ -418,7 +416,7 @@ public class MainActivity extends Activity {
         switch (item.getItemId()) {
             case R.id.action_settings:
                 Intent i = new Intent(MainActivity.this, PrefActivity.class);
-                startActivity(i);
+                startActivityForResult(i,SETTINGS_REQUEST);
                 break;
 
             default:
@@ -426,6 +424,22 @@ public class MainActivity extends Activity {
         }
 
         return true;
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Check which request we're responding to
+        if (requestCode == SETTINGS_REQUEST) {
+            // Make sure the request was successful
+            if (resultCode == RESULT_OK) {
+                if(data.getBooleanExtra("logout", false) == true) {
+                    Intent i = new Intent(MainActivity.this, LoginActivity.class);
+                    startActivity(i);
+                    finish();
+                } else if(data.getBooleanExtra("urlset",false) == true) {
+                    isUrlSet = true;
+                }
+            }
+        }
     }
 
 }

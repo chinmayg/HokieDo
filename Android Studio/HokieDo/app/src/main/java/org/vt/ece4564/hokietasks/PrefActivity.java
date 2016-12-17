@@ -22,6 +22,7 @@ public class PrefActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pref);
         this.setTitle("Set Socket to Server");
+        int callingActivity = getIntent().getIntExtra("calling-activity", 0);
 
         setTextBox();
 
@@ -38,6 +39,16 @@ public class PrefActivity extends Activity {
                 finish();
             }
         });
+
+        Button logoutButton = (Button) findViewById(R.id.logoutButton);
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View arg0) {
+                logout();
+            }
+        });
+        if(callingActivity == ActivityId.LOGIN_ACTIVITY) {
+            logoutButton.setClickable(false);
+        }
 
     }
 
@@ -61,8 +72,9 @@ public class PrefActivity extends Activity {
         prefsEditor.commit();
 
         websiteURL_ = "http://" + ip_ + ":" + port_;
-        Intent i = new Intent(PrefActivity.this, LoginActivity.class);
-        startActivity(i);
+        Intent i = new Intent();
+        i.putExtra("urlset", true);
+        setResult(Activity.RESULT_OK,i);
         finish();
     }
 
@@ -80,5 +92,19 @@ public class PrefActivity extends Activity {
         pText.setText(port_);
 
 
+    }
+
+    private void logout() {
+        myPrefs = this.getSharedPreferences("myPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor prefsEditor = myPrefs.edit();
+        prefsEditor.putString("USER", "Not Set");
+        prefsEditor.putString("SOCKET", "Not Set");
+        prefsEditor.putString("IP", "Not Set");
+        prefsEditor.putString("PORT", "Not Set");
+        prefsEditor.commit();
+        Intent i = new Intent();
+        i.putExtra("logout", true);
+        setResult(Activity.RESULT_OK, i);
+        finish();
     }
 }
