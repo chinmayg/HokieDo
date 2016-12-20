@@ -62,12 +62,12 @@ MERGED from [com.android.support:support-fragment:25.0.0] /Users/cghotkar/Docume
 		ADDED from /Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/src/main/AndroidManifest.xml:15:9-45
 	android:theme
 		ADDED from /Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/src/main/AndroidManifest.xml:17:9-40
-activity#org.vt.ece4564.hokietasks.MainActivity
+activity#org.vt.ece4564.hokietasks.TodoListActivity
 ADDED from /Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/src/main/AndroidManifest.xml:18:9-21:20
 	android:label
 		ADDED from /Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/src/main/AndroidManifest.xml:20:13-45
 	android:name
-		ADDED from /Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/src/main/AndroidManifest.xml:19:13-66
+		ADDED from /Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/src/main/AndroidManifest.xml:19:13-70
 activity#org.vt.ece4564.hokietasks.LoginActivity
 ADDED from /Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/src/main/AndroidManifest.xml:22:9-31:20
 	android:label

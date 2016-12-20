@@ -13,7 +13,7 @@ import android.widget.EditText;
 public class PrefActivity extends Activity {
 
     String ip_, port_, websiteURL_;
-    String TAG = "TASKS";
+    String TAG = "PREFS";
     SharedPreferences myPrefs;
     ProgressDialog pd_;
 

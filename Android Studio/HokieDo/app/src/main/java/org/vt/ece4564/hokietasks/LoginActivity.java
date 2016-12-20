@@ -1,14 +1,5 @@
 package org.vt.ece4564.hokietasks;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -16,7 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -33,7 +23,7 @@ public class LoginActivity extends Activity {
     ProgressDialog pd_;
     String username_ = null;
     String password_ = null;
-    String TAG = "TASKS";
+    String TAG = "LOGIN";
     String websiteURL_ = "Not Set";
     SharedPreferences myPrefs;
     Boolean isUrlSet = false;
@@ -116,120 +106,12 @@ public class LoginActivity extends Activity {
         client.disconnect();
     }
 
-    private class UserAuth extends AsyncTask<String, Void, Long> {
-        protected Long doInBackground(String... cred) {
-            String charset = "UTF-8";  // Or in Java 7 and later, use the constant: java.nio.charset.StandardCharsets.UTF_8.name()
-            String user = cred[0];
-            String pass = cred[1];
-            String type = cred[2];
-            String newURL = websiteURL_ + "/" + type;
-            int timeout = 7000;
-            long status = 0;
-
-            Log.i(TAG, newURL);
-
-            try {
-                HttpURLConnection httpConnection = (HttpURLConnection) new URL(newURL).openConnection();
-                httpConnection.setRequestMethod("POST");
-                httpConnection.setConnectTimeout(timeout);
-                httpConnection.setReadTimeout(timeout);
-
-                String query = String.format("user=%s&pass=%s",
-                        URLEncoder.encode(user, charset),
-                        URLEncoder.encode(pass, charset));
-                httpConnection.setRequestProperty("Accept-Charset", charset);
-                httpConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=" + charset);
-
-                try (OutputStream output = httpConnection.getOutputStream()) {
-                    output.write(query.getBytes(charset));
-                }
-
-                httpConnection.connect();
-
-                status = httpConnection.getResponseCode();
-                Log.i(TAG, "Status " + status);
-
-                httpConnection.disconnect();
-
-            } catch (ProtocolException e) {
-                e.printStackTrace();
-            } catch (UnsupportedEncodingException e1) {
-                e1.printStackTrace();
-            } catch (MalformedURLException e1) {
-                e1.printStackTrace();
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
-
-            return status;
-
-        }
-
-        // Run on UI Thread
-        protected void onPostExecute(Long status) {
-            pd_.dismiss();
-
-            if (status == 200) {
-                Log.i(TAG, "User Authenticated");
-                /* if user exists, puts user name in Shared Preferences
-                  so all activites have access to data */
-                myPrefs = getSharedPreferences("myPrefs", MODE_PRIVATE);
-                SharedPreferences.Editor prefsEditor = myPrefs.edit();
-                prefsEditor.remove("USER");
-                prefsEditor.putString("USER", username_.toString());
-                prefsEditor.commit();
-                Intent i = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(i);
-            } else if (status == 201) {
-                Log.i(TAG, "User Created");
-            } else if (status == 401) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-                // Add the buttons
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // User clicked OK button
-                    }
-                });
-                builder.setMessage("The username or password is not correct! If you are having issues, contact server admin");
-                // Create the AlertDialog
-                AlertDialog dialog = builder.create();
-                dialog.show();
-
-            } else if (status == 400) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-                // Add the buttons
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // User clicked OK button
-                    }
-                });
-                builder.setMessage("This UserName already exists!");
-                // Create the AlertDialog
-                AlertDialog dialog = builder.create();
-                dialog.show();
-            } else if (status == 404) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-                // Add the buttons
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // User clicked OK button
-                    }
-                });
-                builder.setMessage("Unable to connect to server.");
-                // Create the AlertDialog
-                AlertDialog dialog = builder.create();
-                dialog.show();
-            }
-        }
-    }
-
     private void hideSoftKeyboard(Activity activity) {
         try {
-
             InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
             inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
-        } catch (Exception e) {
-
+        } catch (NullPointerException e) {
+            e.printStackTrace();
         }
     }
 
@@ -237,14 +119,16 @@ public class LoginActivity extends Activity {
         pd_ = ProgressDialog.show(LoginActivity.this, null,
                 "Authenticating...");
         pd_.setCancelable(true);
-        new UserAuth().execute(username, password, "login");
+        UserAuth auth = new UserAuth(LoginActivity.this,username, password, "login", websiteURL_);
+        auth.execute();
     }
 
     void createUser(String username, String password) {
         pd_ = ProgressDialog.show(LoginActivity.this, null,
                 "Creating User...");
         pd_.setCancelable(true);
-        new UserAuth().execute(username, password, "create");
+        UserAuth auth = new UserAuth(LoginActivity.this, username, password, "create", websiteURL_);
+        auth.execute();
     }
 
     private void doLogin(String type) {
@@ -296,7 +180,7 @@ public class LoginActivity extends Activity {
         if (requestCode == SETTINGS_REQUEST) {
             // Make sure the request was successful
             if (resultCode == RESULT_OK) {
-                if(data.getBooleanExtra("urlset",false) == true) {
+                if(data.getBooleanExtra("urlset",false)) {
                     isUrlSet = true;
                 }
             }
