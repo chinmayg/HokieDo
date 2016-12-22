@@ -479,9 +479,9 @@
                     "position": {
                         "startLine": 9,
                         "startColumn": 4,
-                        "startOffset": 349,
+                        "startOffset": 352,
                         "endColumn": 72,
-                        "endOffset": 417
+                        "endOffset": 420
                     }
                 }
             },
@@ -517,9 +517,9 @@
                     "position": {
                         "startLine": 7,
                         "startColumn": 4,
-                        "startOffset": 213,
+                        "startOffset": 216,
                         "endColumn": 78,
-                        "endOffset": 287
+                        "endOffset": 290
                     }
                 }
             },
@@ -536,9 +536,9 @@
                     "position": {
                         "startLine": 8,
                         "startColumn": 4,
-                        "startOffset": 292,
+                        "startOffset": 295,
                         "endColumn": 56,
-                        "endOffset": 344
+                        "endOffset": 347
                     }
                 }
             },
@@ -1163,9 +1163,9 @@
                     "position": {
                         "startLine": 14,
                         "startColumn": 4,
-                        "startOffset": 730,
+                        "startOffset": 733,
                         "endColumn": 71,
-                        "endOffset": 797
+                        "endOffset": 800
                     }
                 }
             },
@@ -1182,9 +1182,9 @@
                     "position": {
                         "startLine": 13,
                         "startColumn": 4,
-                        "startOffset": 650,
+                        "startOffset": 653,
                         "endColumn": 79,
-                        "endOffset": 725
+                        "endOffset": 728
                     }
                 }
             },
@@ -1201,9 +1201,9 @@
                     "position": {
                         "startLine": 11,
                         "startColumn": 4,
-                        "startOffset": 494,
+                        "startOffset": 497,
                         "endColumn": 77,
-                        "endOffset": 567
+                        "endOffset": 570
                     }
                 }
             },
@@ -1220,9 +1220,9 @@
                     "position": {
                         "startLine": 12,
                         "startColumn": 4,
-                        "startOffset": 572,
+                        "startOffset": 575,
                         "endColumn": 77,
-                        "endOffset": 645
+                        "endOffset": 648
                     }
                 }
             },
@@ -1258,9 +1258,9 @@
                     "position": {
                         "startLine": 10,
                         "startColumn": 4,
-                        "startOffset": 422,
+                        "startOffset": 425,
                         "endColumn": 71,
-                        "endOffset": 489
+                        "endOffset": 492
                     }
                 }
             },
@@ -1535,8 +1535,8 @@
                     "startLine": 118,
                     "startColumn": 4,
                     "startOffset": 9270,
-                    "endColumn": 46,
-                    "endOffset": 9312
+                    "endColumn": 49,
+                    "endOffset": 9315
                 },
                 "from": {
                     "file": "/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/src/main/res/values/strings_activity_login.xml",
@@ -1544,8 +1544,8 @@
                         "startLine": 5,
                         "startColumn": 4,
                         "startOffset": 113,
-                        "endColumn": 46,
-                        "endOffset": 155
+                        "endColumn": 49,
+                        "endOffset": 158
                     }
                 }
             },
@@ -1553,18 +1553,18 @@
                 "to": {
                     "startLine": 119,
                     "startColumn": 4,
-                    "startOffset": 9317,
+                    "startOffset": 9320,
                     "endColumn": 52,
-                    "endOffset": 9365
+                    "endOffset": 9368
                 },
                 "from": {
                     "file": "/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/src/main/res/values/strings_activity_login.xml",
                     "position": {
                         "startLine": 6,
                         "startColumn": 4,
-                        "startOffset": 160,
+                        "startOffset": 163,
                         "endColumn": 52,
-                        "endOffset": 208
+                        "endOffset": 211
                     }
                 }
             },
@@ -1572,9 +1572,9 @@
                 "to": {
                     "startLine": 120,
                     "startColumn": 4,
-                    "startOffset": 9370,
+                    "startOffset": 9373,
                     "endColumn": 56,
-                    "endOffset": 9422
+                    "endOffset": 9425
                 },
                 "from": {
                     "file": "/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/src/main/res/values/strings_activity_login.xml",
@@ -1591,9 +1591,9 @@
                 "to": {
                     "startLine": 121,
                     "startColumn": 4,
-                    "startOffset": 9427,
+                    "startOffset": 9430,
                     "endColumn": 60,
-                    "endOffset": 9483
+                    "endOffset": 9486
                 },
                 "from": {
                     "file": "/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/src/main/res/values/strings.xml",
@@ -1610,9 +1610,9 @@
                 "to": {
                     "startLine": 122,
                     "startColumn": 4,
-                    "startOffset": 9488,
+                    "startOffset": 9491,
                     "endColumn": 60,
-                    "endOffset": 9544
+                    "endOffset": 9547
                 },
                 "from": {
                     "file": "/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/src/main/res/values/strings_activity_settings.xml",
@@ -1629,10 +1629,10 @@
                 "to": {
                     "startLine": 123,
                     "startColumn": 4,
-                    "startOffset": 9549,
+                    "startOffset": 9552,
                     "endLine": 129,
                     "endColumn": 12,
-                    "endOffset": 9835
+                    "endOffset": 9838
                 },
                 "from": {
                     "file": "/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/src/main/res/values/styles.xml",
@@ -1650,10 +1650,10 @@
                 "to": {
                     "startLine": 130,
                     "startColumn": 4,
-                    "startOffset": 9840,
+                    "startOffset": 9843,
                     "endLine": 132,
                     "endColumn": 12,
-                    "endOffset": 9995
+                    "endOffset": 9998
                 },
                 "from": {
                     "file": "/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/src/main/res/values/styles.xml",
@@ -1671,10 +1671,10 @@
                 "to": {
                     "startLine": 133,
                     "startColumn": 4,
-                    "startOffset": 10000,
+                    "startOffset": 10003,
                     "endLine": 137,
                     "endColumn": 12,
-                    "endOffset": 10220
+                    "endOffset": 10223
                 },
                 "from": {
                     "file": "/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/src/main/res/values/styles.xml",

@@ -150,38 +150,35 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int ic_launcher=0x7f02002a;
     }
     public static final class id {
-        public static final int Button02=0x7f0c0018;
-        public static final int TodoList=0x7f0c0015;
-        public static final int TodoListAdd=0x7f0c0012;
-        public static final int action_forgot_password=0x7f0c001f;
-        public static final int action_settings=0x7f0c0020;
+        public static final int Button02=0x7f0c0015;
+        public static final int TodoList=0x7f0c0012;
+        public static final int TodoListAdd=0x7f0c000f;
+        public static final int action_forgot_password=0x7f0c001c;
+        public static final int action_settings=0x7f0c001d;
         public static final int adjust_height=0x7f0c0000;
         public static final int adjust_width=0x7f0c0001;
         public static final int auto=0x7f0c0006;
-        public static final int cancelButton=0x7f0c001d;
+        public static final int cancelButton=0x7f0c001a;
         public static final int dark=0x7f0c0007;
-        public static final int email=0x7f0c000c;
+        public static final int email=0x7f0c000d;
         public static final int icon_only=0x7f0c0003;
-        public static final int ipText=0x7f0c001a;
+        public static final int ipText=0x7f0c0017;
         public static final int light=0x7f0c0008;
-        public static final int login=0x7f0c000e;
-        public static final int login_form=0x7f0c000b;
-        public static final int login_status=0x7f0c0009;
-        public static final int login_status_message=0x7f0c000a;
-        public static final int logoutButton=0x7f0c001e;
+        public static final int login=0x7f0c000b;
+        public static final int logoutButton=0x7f0c001b;
         public static final int none=0x7f0c0002;
-        public static final int password=0x7f0c000d;
-        public static final int portText=0x7f0c001b;
-        public static final int prefButton=0x7f0c0011;
-        public static final int register=0x7f0c000f;
-        public static final int saveToServerButton=0x7f0c0019;
-        public static final int scrollView1=0x7f0c0016;
-        public static final int setButton=0x7f0c001c;
-        public static final int sign_in_button=0x7f0c0010;
+        public static final int password=0x7f0c000a;
+        public static final int portText=0x7f0c0018;
+        public static final int prefButton=0x7f0c000e;
+        public static final int register=0x7f0c0009;
+        public static final int saveToServerButton=0x7f0c0016;
+        public static final int scrollView1=0x7f0c0013;
+        public static final int setButton=0x7f0c0019;
+        public static final int sign_in_button=0x7f0c000c;
         public static final int standard=0x7f0c0004;
-        public static final int submitTaskButton=0x7f0c0014;
-        public static final int taskTable=0x7f0c0017;
-        public static final int taskText=0x7f0c0013;
+        public static final int submitTaskButton=0x7f0c0011;
+        public static final int taskTable=0x7f0c0014;
+        public static final int taskText=0x7f0c0010;
         public static final int wide=0x7f0c0005;
     }
     public static final class integer {
@@ -191,6 +188,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int activity_login=0x7f030000;
         public static final int activity_main=0x7f030001;
         public static final int activity_pref=0x7f030002;
+        public static final int login=0x7f030003;
     }
     public static final class menu {
         public static final int login=0x7f0b0000;

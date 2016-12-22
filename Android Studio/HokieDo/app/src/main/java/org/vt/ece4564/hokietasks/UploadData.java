@@ -1,6 +1,7 @@
 package org.vt.ece4564.hokietasks;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
@@ -25,14 +26,16 @@ public class UploadData extends AsyncTask<String, Void, Long> {
     private String mUser = "";
     private String mType = "";
     private String mJSONString = "";
+    private ProgressDialog mPd = null;
     private Context mContext; // context reference
 
-    public UploadData(Context context, String user, String type, String url, String jsonString){ //constructor
+    public UploadData(Context context, String user, String type, String url, String jsonString, ProgressDialog pd){ //constructor
         this.mContext = context;
         this.mUser = user;
         this.mType = type;
         this.mWebsiteURL = url;
         this.mJSONString = jsonString;
+        this.mPd = pd;
     }
     protected Long doInBackground(String... cred) {
         String charset = "UTF-8";
@@ -70,6 +73,7 @@ public class UploadData extends AsyncTask<String, Void, Long> {
 
     // Run on UI Thread
     protected void onPostExecute(Long status_code) {
+        mPd.dismiss();
         if (status_code == 200) {
             Log.i(TAG, "Data Updated");
         } else if (status_code == 400) {

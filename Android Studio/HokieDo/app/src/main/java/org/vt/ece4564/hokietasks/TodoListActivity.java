@@ -181,7 +181,7 @@ public class TodoListActivity extends Activity {
         pd_ = ProgressDialog.show(TodoListActivity.this, null, "Downloading...");
         pd_.setCancelable(true);
         if (isWebserverSet()) {
-            DownloadData down = new DownloadData(TodoListActivity.this, username_, "getData", websiteURL_, rows);
+            DownloadData down = new DownloadData(TodoListActivity.this, username_, "getData", websiteURL_, rows, pd_);
             down.execute();
         }
     }
@@ -195,7 +195,7 @@ public class TodoListActivity extends Activity {
         JSONArray array = convertArrayListToString();
         Log.i(TAG, array.toString());
         if (isWebserverSet()) {
-            UploadData up = new UploadData(TodoListActivity.this, username_, "updateData", websiteURL_, array.toString());
+            UploadData up = new UploadData(TodoListActivity.this, username_, "updateData", websiteURL_, array.toString(), pd_);
             up.execute();
         }
     }
