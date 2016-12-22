@@ -2,6 +2,7 @@ package org.vt.ece4564.hokietasks;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
@@ -37,14 +38,16 @@ public class DownloadData extends AsyncTask<String, Void, String> {
     private String mUser = "";
     private String mType = "";
     private ArrayList<String> mRows = null;
+    private ProgressDialog mPd = null;
     private Context mContext; // context reference
 
-    public DownloadData(Context context, String user, String type, String url, ArrayList<String> rows){ //constructor
+    public DownloadData(Context context, String user, String type, String url, ArrayList<String> rows, ProgressDialog pd){ //constructor
         this.mContext = context;
         this.mUser = user;
         this.mType = type;
-        mWebsiteURL = url;
-        mRows = rows;
+        this.mWebsiteURL = url;
+        this.mRows = rows;
+        this.mPd = pd;
     }
 
     protected String doInBackground(String... cred) {
@@ -91,6 +94,7 @@ public class DownloadData extends AsyncTask<String, Void, String> {
 
     // Run on UI Thread
     protected void onPostExecute(String response) {
+        mPd.dismiss();
         if (response.contains("{")) {
             Log.i(TAG, "Data Downloaded");
             try {
