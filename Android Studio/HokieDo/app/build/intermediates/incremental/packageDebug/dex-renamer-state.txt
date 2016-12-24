@@ -1,7 +1,7 @@
-#Wed Dec 21 20:49:58 EST 2016
-base.0=/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_079dedefea650fb364b5a993cb571a22a2005ca0
-renamed.1=classes2.dex
-renamed.0=classes.dex
-file.1=/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_197a8628c5068d5ca3599a92ccbef7ed074b4eaa/classes.dex
-base.1=/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_197a8628c5068d5ca3599a92ccbef7ed074b4eaa
-file.0=/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_079dedefea650fb364b5a993cb571a22a2005ca0/classes.dex
+#Sat Dec 24 00:58:42 EST 2016
+base.0=/Users/cghotkar/Documents/Development/TestNavigationDrawer/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_97a382c4ef4828d237e03c6c04d386e6e40dd28b
+renamed.1=classes.dex
+renamed.0=classes2.dex
+file.1=/Users/cghotkar/Documents/Development/TestNavigationDrawer/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_25defd0ea858fcde0b067648e2d4652017ae22fa/classes.dex
+base.1=/Users/cghotkar/Documents/Development/TestNavigationDrawer/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_25defd0ea858fcde0b067648e2d4652017ae22fa
+file.0=/Users/cghotkar/Documents/Development/TestNavigationDrawer/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_97a382c4ef4828d237e03c6c04d386e6e40dd28b/classes.dex
