@@ -5,58 +5,53 @@
     density="420dpi"
     format="8"
     plugin-version="2.2.2"
-    timestamp="137771606131027"
-    token="-3888579649402729620"
+    timestamp="147857588011607"
+    token="1042290510844452337"
     verifier="COLD_SWAP_REQUESTED" >
 
     <task
         name="javac"
-        duration="192" />
+        duration="0" />
     <task
         name="instant-run-dex"
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="37" />
+        duration="0" />
     <task
         name="verifier"
-        duration="4" />
+        duration="0" />
 
     <artifact
-        location="/Users/cghotkar/Documents/Development/TestNavigationDrawer/app/build/intermediates/instant-run-resources/resources-debug.ir.ap_"
+        location="/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/build/intermediates/instant-run-resources/resources-debug.ir.ap_"
         type="RESOURCES" />
-    <artifact
-        location="/Users/cghotkar/Documents/Development/TestNavigationDrawer/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_7/classes.dex"
-        type="DEX" />
-    <artifact
-        location="/Users/cghotkar/Documents/Development/TestNavigationDrawer/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_4/classes.dex"
-        type="DEX" />
-    <artifact
-        location="/Users/cghotkar/Documents/Development/TestNavigationDrawer/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_0/classes.dex"
-        type="DEX" />
 
     <build
-        timestamp="137584024006156"
+        timestamp="142958682216000"
         verifier="FULL_BUILD_REQUESTED" >
         <artifact
-            location="/Users/cghotkar/Documents/Development/TestNavigationDrawer/app/build/outputs/apk/app-debug.apk"
+            location="/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/build/outputs/apk/app-debug.apk"
             type="MAIN" />
     </build>
     <build
-        timestamp="137771606131027"
+        timestamp="147781128465664"
         verifier="COLD_SWAP_REQUESTED" >
         <artifact
-            location="/Users/cghotkar/Documents/Development/TestNavigationDrawer/app/build/intermediates/instant-run-resources/resources-debug.ir.ap_"
+            location="/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_7/classes.dex"
+            type="DEX" />
+        <artifact
+            location="/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_4/classes.dex"
+            type="DEX" />
+        <artifact
+            location="/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_0/classes.dex"
+            type="DEX" />
+    </build>
+    <build
+        timestamp="147857588011607"
+        verifier="COLD_SWAP_REQUESTED" >
+        <artifact
+            location="/Users/cghotkar/Documents/Development/Git Repos/HokieDo/Android Studio/HokieDo/app/build/intermediates/instant-run-resources/resources-debug.ir.ap_"
             type="RESOURCES" />
-        <artifact
-            location="/Users/cghotkar/Documents/Development/TestNavigationDrawer/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_7/classes.dex"
-            type="DEX" />
-        <artifact
-            location="/Users/cghotkar/Documents/Development/TestNavigationDrawer/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_4/classes.dex"
-            type="DEX" />
-        <artifact
-            location="/Users/cghotkar/Documents/Development/TestNavigationDrawer/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_0/classes.dex"
-            type="DEX" />
     </build>
 
 </instant-run>

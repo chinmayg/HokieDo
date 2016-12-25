@@ -88,6 +88,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_sync) {
+            Toast.makeText(getApplicationContext(),"Sync Selected",Toast.LENGTH_SHORT).show();
             // Handle the camera action
         } else if (id == R.id.nav_login) {
             Toast.makeText(getApplicationContext(),"Login Selected",Toast.LENGTH_SHORT).show();
@@ -97,36 +98,23 @@ public class MainActivity extends AppCompatActivity
             fragmentTransaction.commit();
             return true;
         } else if (id == R.id.nav_setting) {
-            Toast.makeText(getApplicationContext(),"Login Selected",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),"Settings Selected",Toast.LENGTH_SHORT).show();
             PrefFragment fragment = new PrefFragment();
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.content_frame,fragment);
             fragmentTransaction.commit();
             return true;
+        } else if (id == R.id.nav_home) {
+            Toast.makeText(getApplicationContext(),"Home Selected",Toast.LENGTH_SHORT).show();
+            TodoFragment fragment = new TodoFragment();
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.content_frame,fragment);
+            fragmentTransaction.commit();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // Check which request we're responding to
-        if (requestCode == SETTINGS_REQUEST) {
-            // Make sure the request was successful
-            if (resultCode == RESULT_OK) {
-                if (data.getBooleanExtra("urlset", false)) {
-
-                }
-            }
-        } else if (requestCode == LOGIN_REQUEST) {
-            if (resultCode == RESULT_OK) {
-                //Change the login text in Navigation header to user id
-                String user = data.getStringExtra("username");
-                Log.i(TAG, user);
-            }
-        }
-
     }
 
     /**
