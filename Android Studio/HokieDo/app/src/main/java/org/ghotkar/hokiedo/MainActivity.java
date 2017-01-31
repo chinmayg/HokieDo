@@ -1,10 +1,8 @@
 package org.ghotkar.hokiedo;
 
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -19,6 +17,9 @@ import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 
+import org.ghotkar.fragments.LoginFragment;
+import org.ghotkar.fragments.PrefFragment;
+import org.ghotkar.fragments.TodoFragment;
 import org.ghotkar.testnavigationdrawer.R;
 
 public class MainActivity extends AppCompatActivity
