@@ -8,37 +8,38 @@
     android:paddingTop="@dimen/activity_vertical_margin">
 
     <EditText
-        android:id="@+id/ipText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:ems="10"
-        android:hint="Server IP Address" >
-
-        <requestFocus />
-    </EditText>
-
-    <EditText
         android:id="@+id/portText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/ipText"
-        android:layout_below="@+id/ipText"
-        android:layout_marginTop="14dp"
         android:ems="10"
-        android:hint="Server Port" />
+        android:hint="Server Port"
+        android:layout_centerVertical="true"
+        android:layout_alignStart="@+id/ipText"
+        android:textAlignment="center"/>
+
+    <EditText
+        android:id="@+id/ipText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Server IP Address"
+        android:layout_above="@+id/portText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="22dp"
+        android:textAlignment="center">
+
+        <requestFocus />
+    </EditText>
 
     <Button
         android:id="@+id/setButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/portText"
-        android:layout_below="@+id/portText"
         android:layout_marginLeft="32dp"
-        android:layout_marginTop="28dp"
-        android:text="Save" />
+        android:text="Save"
+        android:layout_marginTop="41dp"
+        android:layout_below="@+id/portText"
+        android:layout_centerHorizontal="true"/>
 
 
 </RelativeLayout>

@@ -1,6 +1,5 @@
 package org.ghotkar.helper;
 
-import android.content.ClipData;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
