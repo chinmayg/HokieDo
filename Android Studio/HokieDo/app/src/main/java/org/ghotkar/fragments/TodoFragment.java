@@ -48,9 +48,6 @@ public class TodoFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        rows.add(0,"test");
-        rows.add(1, "test1");
-        rows.add(2,"test2");
 
         v = inflater.inflate(R.layout.todo_fragment, container, false);
         FloatingActionButton fab = (FloatingActionButton) v.findViewById(R.id.fab);
