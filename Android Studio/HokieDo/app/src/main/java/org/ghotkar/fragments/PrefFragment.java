@@ -34,8 +34,9 @@ public class PrefFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        setTextBox();
+
         v = inflater.inflate(R.layout.pref_fragment,container,false);
+        setTextBox();
         Button saveButton = (Button) v.findViewById(R.id.setButton);
         saveButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
